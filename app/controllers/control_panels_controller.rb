@@ -4,6 +4,14 @@ class ControlPanelsController < ApplicationController
   $login_time = DateTime.now
   def index
     @message_count = TpaCsp.where(:status_code =>503).count
+    @users = User.all
+    @count=0
+    @users.each do |user|
+      if (user.online)
+        @count = @count + 1
+      end
+    end
+
 
   end
 
@@ -13,8 +21,7 @@ class ControlPanelsController < ApplicationController
   def create
   end
 
-  def destroy
-    
+  def destroy  
   end
 
   def file
@@ -25,20 +32,20 @@ class ControlPanelsController < ApplicationController
     @users = User.all
   end
   def user_search
-    if params[:search]
+    #if params[:search]
       @user = User.find_by_id(params[:search])
-    else
-      @users = User.all.order('created_at DESC')
-    end
+    #else
+    #  @users = User.all.order('created_at DESC')
+    #end
   end
   
   def file_search
     @file_uploads = FileUpload.all
-    if params[:search]
+    #if params[:search]
       @file = FileUpload.find_by_id(params[:search])
-    else
-      @files = FileUpload.all.order('created_at DESC')
-    end
+    #else
+    #  @files = FileUpload.all.order('created_at DESC')
+    #end
   end
 
   def send_hash
@@ -50,11 +57,10 @@ class ControlPanelsController < ApplicationController
 
   def blit_tpa_csp
     @messages = TpaCsp.where(:status_code =>502)
-
   end
+
   def blit_tpa_csp_inbox
     @messages = TpaCsp.where(:status_code =>503)
-
   end
 
 
@@ -73,5 +79,17 @@ class ControlPanelsController < ApplicationController
     @user.destroy
     redirect_to :controller => 'control_panels', :action => 'user'     
   end
+
+  def list_online_users
+    @users = User.all
+    @count=0
+    @users.each do |user|
+      if (user.online)
+        @count = @count + 1
+      end
+    end
+
+  end
+
   
 end

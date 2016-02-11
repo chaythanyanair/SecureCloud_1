@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     get 'send_hash'
     get 'blit_tpa_csp'
     get 'blit_tpa_csp_inbox'
+    get 'list_online_users'
     delete 'delete_message'
     delete 'delete_user'
   end

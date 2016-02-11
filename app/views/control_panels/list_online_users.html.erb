@@ -9,12 +9,12 @@
 		<link rel="stylesheet" href="bootstrap.css">
 		<link rel="stylesheet" href="control_panel.scss">
 		
-		<TITLE>Users</TITLE>
+		<TITLE>Online users</TITLE>
 
 	</head>
 	<body>
 	<center>
-		<h1>Listing Users</h1>
+		<h1>Listing Online Users</h1>
 	</center>
 <br />
 <br />
@@ -52,12 +52,14 @@
 
   		<tbody>
     		<% @users.each do |user| %>
+          <% if (user.online) %>
       		<tr>
             <td><%= user.id %></td>
         		<td><%= user.first_name + " " +user.last_name  %></td>
             <td><%= user.file_uploads.count %> </td>
         		<td><%= link_to 'Delete',  delete_user_control_panel_path(@users,:usrid =>user.id), method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } %></td>
       		</tr>
+          <% end %>
     		<% end %>
   		</tbody>
 		</table>

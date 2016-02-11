@@ -29,11 +29,15 @@ class UsersController < ApplicationController
   end
 	
   def show
-   @user=User.all
-    @user=User.find(params[:id])
-    if @user.tpa
-            redirect_to tpa_path(@user)
-    end
+   if(!current_user)
+      redirect_to "/"
+   else
+      @user=User.all
+      @user=User.find(params[:id])
+      if @user.tpa
+        redirect_to tpa_path(@user)
+      end
+   end
   end
   def edit
    @user=User.find(params[:id])
@@ -58,16 +62,7 @@ class UsersController < ApplicationController
     flash[:success] = "User deleted"
     
   end
-  def user_search
-    if params[:search]
-      @users = User.search(params[:search]).order("created_at DESC")
-    else
-      @users = User.all.order('created_at DESC')
-    end
-  end
   
-  def file_search
-  end
   private 
     def user_params #which parameters are required and which ones are permitted.
         params.require(:user).permit(:first_name,:last_name, :email, :password,:date_of_birth,:gender,:captcha,:captcha_key) 
