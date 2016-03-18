@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
   		if @user && @user.authenticate(params[:session][:password])
     			session[:user_id] = @user.id #creating a new session
     			if @user.tpa
-    				redirect_to tpa_path(@user)
+    				redirect_to tpa_index_path
     			else
                 @user[:online] =  true
                 @user.save

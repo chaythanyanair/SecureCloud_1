@@ -7,13 +7,15 @@
 </head>
 <body>
 <%=render 'tpa'%>
+<br>
+<br>
 
 <div class="col-md-5">
 <table class = "table table-bordered table-striped" width="0%">
   <thead>
     <tr>
-      <th>Statuscode</th>
-      <th>Fileid</th>
+      <th>Status Code</th>
+      <th>File Id</th>
       <th>Hash value</th>
       <th colspan="5"></th>
     </tr>
@@ -25,7 +27,7 @@
         <td><%= req.status_code %></td>
         <td><%= req.file_upload_id %></td>
         <td><%= req.file_hash %></td>
-        <td><%= link_to 'Delete', user_file_upload_path(current_user,file_upload), method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', tpa_path(:id => req.id), method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

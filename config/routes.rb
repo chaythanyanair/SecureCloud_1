@@ -4,19 +4,7 @@ Rails.application.routes.draw do
 
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
-  get 'tpa/new'
-
-  get 'tpa/create'
-
-  get 'tpa/edit'
-
-  get 'tpa/update'
-
-  get 'tpa/destroy'
-
-  get 'tpa/audit'
-
-
+  
   resources :tpa
 
   get 'uploads' => 'file_uploads#index'
