@@ -1,11 +1,6 @@
 Rails.application.routes.draw do
-
-
-
-  resources :password_resets,     only: [:new, :create, :edit, :update]
-
-  
-  resources :tpa
+resources :password_resets,     only: [:new, :create, :edit, :update]
+resources :tpa
 
   get 'uploads' => 'file_uploads#index'
   get 'control_panel' => 'control_panels#index'
@@ -33,7 +28,7 @@ Rails.application.routes.draw do
   #get 'tpa' => 'pages#tpa'
   delete 'logout'=> 'sessions#destroy'
   resources :users do 
-    get '/messages'=>'users#showMessages'
+    get '/messages'=>'users#messages'
     resources :file_uploads do
       get '/send_hash'=>'file_uploads#send_hash'
       get '/audit'=>'file_uploads#audit'

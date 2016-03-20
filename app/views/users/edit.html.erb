@@ -7,12 +7,10 @@
 </head>
 <body>
 	<%= render 'user'%>
-  <br><br><br>
-	<div class="container">
-    <h3>&nbsp;&nbsp;&nbsp;Edit Profile</h3>
-	<div class="row">
+  <h3>&nbsp;&nbsp;&nbsp;Edit Profile</h3>
+	
             <!-- edit form column -->
-     <div class="col-md-9 personal-info">
+     <div class="col-md-7 personal-info">
      	<%= form_for(@user) do |f| %>
         
 	    <%= render 'shared/error_messages' %>

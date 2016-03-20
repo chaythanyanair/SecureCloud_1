@@ -52,3 +52,30 @@ background: transparent;
 .navbar-inverse .nav li a{
  color:#fff;
 }
+.vertical{
+position: relative;
+display: inline;
+/*background-repeat: no-repeat;*/
+background-position: 50% 50%;
+width: 5pc;
+height:20pc;
+line-height: 2pc;
+border: none;
+margin-left:15px;
+}
+.vertical ul
+{
+    margin-left:-14px;  
+    margin-top:-30px; 
+    list-style-type: none;
+}
+.vertical .btn{
+  width:3pc;
+  height:3pc;
+}
+.vertical .glyphicon {
+    font-size: 15px;
+}
+.heading{
+  margin-left:40px;
+}

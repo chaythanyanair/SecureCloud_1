@@ -9,10 +9,11 @@
       
    </div>
 <% end %>
-<%= render 'file'%>
-
+<%= render 'users/user'%>
+<div class="col-sm-7">
+<h2>Add new file</h2>
    <%= form_for [@user,@file_upload], html: { multipart: true } do |f| %>
-       <%= f.label :Ownername %>
+      <%= f.label :Ownername %>
       <%= f.text_field :owner %>
 
       <%= f.label :filename %><br>
@@ -30,7 +31,6 @@
      <br> 
       <%= f.submit "Save", class: "btn btn-primary" %>
    <% end %>
-
-
+</div>
 
 

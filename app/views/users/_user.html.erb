@@ -2,46 +2,35 @@
 <html>
 <head>
     <title><%= @user.first_name.upcase %></title>
-     <%= stylesheet_link_tag    'application','users.scss' %>
-  
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
 </head>
 <body>
-    <div class="container">
-    <div class="row">
-        <div class="col-sm-10"><h1><%=@user.first_name%></h1></div>
+<div class="container">
+<div class="heading">
+<div class="row">
+        <div class="col-md-10"><h1><%=@user.first_name%></h1></div>
+</div></div>
+ <div class="row">
+  <div class="col-sm-1">
+    <div class="vertical">
+      
+        <ul>
+          <li> <%= link_to user_path(current_user.id), class: "btn btn-info" do %><i class="glyphicon glyphicon-home"></i>
+            <% end %></li>
+          <li><%= link_to edit_user_path(current_user) ,class: "btn btn-success",:id => '5',:title => 'Edit profile', :rel => 'tooltip' do %><i class="glyphicon glyphicon-pencil"></i>
+            <% end %> </li>
+          <li><%= link_to user_file_uploads_path(current_user),class: "btn btn-default", :id => '7',:title => 'All Files', :rel => 'tooltip' do %><i class="glyphicon glyphicon-inbox"></i>
+            <% end %> </li>
+          <li><%= link_to new_user_file_upload_path(current_user) , class: "btn btn-primary", :id => '5',:title => 'Upload new file', :rel => 'tooltip' do %><i class="glyphicon glyphicon-open"></i><% end %></li>
+          <li><%= link_to user_messages_path(@user.id),class: "btn btn-warning",:id => '5',:title => 'Messages', :rel => 'tooltip' do %><i class="glyphicon glyphicon-envelope"></i><% end %></li> 
+          <li><%= link_to @user, method: :delete,data: { confirm: "You sure?" },class: "btn btn-danger",:id => '5',:title => 'Delete Account', :rel => 'tooltip' do %><i class="glyphicon glyphicon-trash"></i>
+          <% end %></li> 
+        </ul>
+      
     </div>
-    <div class="row">
-        <div class="col-sm-3"><!--left col-->
-              
-          <ul class="list-group">
-            <li class="list-group-item list-group-item-info text-muted">Profile</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>First name</strong></span> <%= @user.first_name%></li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Last name</strong></span> <%= @user.last_name%></li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Email</strong></span> 
-            <%= @user.email %></li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Gender</strong></span> 
-            <%= @user.gender %></li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Birthday</strong></span> <%= @user.date_of_birth %></li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>No.of.Files</strong></span> <span class="badge"> <%= @user.file_uploads.count %></span></li>
-            
-          </ul> 
-        </div>
-        <div class="col-sm-9">
-        <nav class="navbar navbar-inverse">
-          <ul class="nav navbar-nav">
-            <li class="<%= 'active' if params[:show] == 'show' %>"><strong> <%= link_to "Home",user_path(current_user.id)%></strong></li>
-            <li class="<%= 'active' if params[:edit] == 'edit' %>"><strong> <%= link_to "Edit Profile",edit_user_path(current_user)%></strong> </li>
-            <!--li class="<%= 'active' if params[:index] =='index' %>"><strong><%= link_to "View all Users",users_path%></strong> </li--> 
-            <li><strong><%= link_to "Library",user_file_uploads_path(current_user)%></strong> </li> 
-            <li><strong><%= link_to "Messages",user_messages_path(@user.id)%></strong> </li> 
-            <li><strong><%= link_to "destroy", @user, method: :delete,data: { confirm: "You sure?" } %></strong></li> 
-          </ul>
-        </nav>
-         <hr>
-        </div>
-    <%=yield%>   
+  </div>
+
+    <%=yield%>
+     
 
    
 </body>

@@ -7,37 +7,96 @@
 </head>
 <body>
 	<%= render 'user'%>
-  <br><br><br>
-	<div class="container">
-    <h3>&nbsp;&nbsp;&nbsp;Messages</h3>
-	<div class="row">
-		<div class="col-md-5">
-			<table class = "table table-bordered table-striped" width="0%">
-				<%= will_paginate %>
-  			<thead>
-    		<tr>
-		      <th>Owner</th>
-		      <th>Filename</th>
-		      <th>Keywords</th>
-		      <th>Hash value</th>
-		      <th colspan="5"></th>
-		    </tr>
-		  </thead>
+  <h3>&nbsp;&nbsp;&nbsp;Messages</h3>
+<div class="col-sm-7">
+            <ul class="nav nav-tabs" data-tabs="tabs">
+            <li><a href="#tab1default" data-toggle="tab"> Audit Requests</a></li>
+            <li><a href="#tab2default" data-toggle="tab"> Update Messages</a> </li>
+            <li><a href="#tab3default" data-toggle="tab"> Audit Responses </a></li> 
+            </ul>
+        </div>
+<div class="row">
+    <div id="my-tab-content" class="tab-content">
+    <div class="tab-pane fade" id="tab1default">
+	<div class="col-md-5">
+	<table class = "table table-bordered table-striped" width="0%">
+  	<thead>
+    <tr>
+      <th>Status Code</th>
+      <th>File Id</th>
+      <th>Hash value</th>
+    </tr>
+  </thead>
 
-		  <tbody>
-		    <% @file_uploads.each do |file_upload| %>
-		      <tr>
-		        <td><%= file_upload.owner %></td>
-		        <td><%= file_upload.fname %></td>
-		        <td><%= file_upload.keywords %></td>
-		        <td><%= file_upload.hash_val %></td>
-		        <td><%= link_to 'Download', file_upload.attachment_url, class: "btn btn-success"%></td>
-		        <td><%= link_to 'Edit', edit_user_file_upload_path(current_user,file_upload), class: "btn btn-warning"%></td>
-		        <td><%= link_to 'Delete', user_file_upload_path(current_user,file_upload), method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } %></td>
-		        <td><%= link_to 'Send Hash', edit_user_file_upload_path(current_user,file_upload), class: "btn btn-default"%></td>
-		        <td><%= link_to 'Request Audit', edit_user_file_upload_path(current_user,file_upload), class: "btn btn-info"%></td>
-		      </tr>
-		    <% end %>
-		  </tbody>
-		</table>
-	</div>
+  <tbody>
+    <% @req.each do |req| %>
+    <% if(req.status_code==503)%>
+      <tr>
+        <td><%= req.status_code %></td>
+        <td><%= req.file_upload_id %></td>
+        <td><%= req.file_hash %></td>
+      </tr>
+    <% end %>
+   <%end%>
+
+  </tbody>
+</table>
+</div>
+</div>
+
+<div class="tab-pane fade" id="tab2default">
+<div class="col-md-5">
+<table class = "table table-bordered table-striped" width="0%">
+  <thead>
+    <tr>
+      <th>Status Code</th>
+      <th>File Id</th>
+      <th>Hash value</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @req.each do |req| %>
+    <% if(req.status_code==502)%>
+      <tr>
+        <td><%= req.status_code %></td>
+        <td><%= req.file_upload_id %></td>
+        <td><%= req.file_hash %></td>
+      </tr>
+    <% end %>
+    <% end %>
+
+  </tbody>
+</table>
+</div>
+</div>
+<div class="tab-pane fade" id="tab3default">
+<div class="col-md-5">
+<table class = "table table-bordered table-striped" width="0%">
+  <thead>
+    <tr>
+      <th>Status Code</th>
+      <th>File Id</th>
+      <th>Hash value</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @req.each do |req| %>
+    <% if(req.status_code==504)%>
+      <tr>
+        <td><%= req.status_code %></td>
+        <td><%= req.file_upload_id %></td>
+        <td><%= req.file_hash %></td>
+      </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

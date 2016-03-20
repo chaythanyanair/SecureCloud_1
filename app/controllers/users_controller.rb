@@ -23,9 +23,10 @@ class UsersController < ApplicationController
           render 'new'
         end
   end
-  def showMessages
+  def messages
     @user=User.find(params[:user_id])
-    @msg=@user.request_messages.paginate(page: params[:page], :per_page => 10)
+    @req=@user.request_messages
+    #@req=@msg.find_by_status_code(502)
   end
 	
   def show
@@ -50,10 +51,6 @@ class UsersController < ApplicationController
     else
         render 'edit'
     end  
-  end
-  def messages
-    render 'messages'
-    #@msg=RequestMessage.all
   end
   def destroy
     session[:user_id] = nil
