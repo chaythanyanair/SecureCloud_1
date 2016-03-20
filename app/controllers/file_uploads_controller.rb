@@ -6,7 +6,7 @@ class FileUploadsController < ApplicationController
   # GET /file_uploads.json
   
   def send_hash
-      @user = User.find(params[:user_id])
+      @user = User.find_by_id(params[:user_id])
       @id1 = params[:user_id]
       @file_uploads = FileUpload.find_by_id(params[:file_upload_id])
       @md5 = Digest::MD5.file(@file_uploads.attachment.path).hexdigest 
@@ -91,6 +91,7 @@ def audit
   # DELETE /file_uploads/1
   # DELETE /file_uploads/1.json
   def destroy
+    @user = User.find(params[:currentuser])
     @file_upload=@user.file_uploads.find(params[:id])
     @file_upload.destroy
     respond_to do |format|

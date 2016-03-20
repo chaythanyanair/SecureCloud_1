@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20160318152713) do
 
   create_table "file_uploads", force: :cascade do |t|
@@ -70,6 +71,7 @@ ActiveRecord::Schema.define(version: 20160318152713) do
     t.string   "reset_digest",    limit: 255
     t.datetime "reset_sent_at"
     t.boolean  "tpa",                         default: false
+    t.boolean  "online",                      default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

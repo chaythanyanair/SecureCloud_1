@@ -4,19 +4,7 @@ Rails.application.routes.draw do
 
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
-  get 'tpa/new'
-
-  get 'tpa/create'
-
-  get 'tpa/edit'
-
-  get 'tpa/update'
-
-  get 'tpa/destroy'
-
-  get 'tpa/audit'
-
-
+  
   resources :tpa
 
   get 'uploads' => 'file_uploads#index'
@@ -30,6 +18,7 @@ Rails.application.routes.draw do
     get 'send_hash'
     get 'blit_tpa_csp'
     get 'blit_tpa_csp_inbox'
+    get 'list_online_users'
     delete 'delete_message'
     delete 'delete_user'
   end
