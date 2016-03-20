@@ -21,5 +21,6 @@ class TpaController < ApplicationController
   end
   def show
     @user=User.find(params[:id])
+    @req=RequestMessage.all
   end
 end

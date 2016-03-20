@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20160210143050) do
-=======
-ActiveRecord::Schema.define(version: 20160209172414) do
->>>>>>> ff09240a4f9cf1ee2b7edbf7d0f235eeda6f963f
+ActiveRecord::Schema.define(version: 20160318152713) do
 
   create_table "file_uploads", force: :cascade do |t|
     t.string   "fname",      limit: 255
@@ -62,15 +58,6 @@ ActiveRecord::Schema.define(version: 20160209172414) do
 
   add_index "tpa_csps", ["file_upload_id"], name: "index_tpa_csps_on_file_upload_id", using: :btree
 
-  create_table "tpas", force: :cascade do |t|
-    t.string   "file_hash",      limit: 255
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "file_upload_id", limit: 4
-  end
-
-  add_index "tpas", ["file_upload_id"], name: "index_tpas_on_file_upload_id", using: :btree
-
   create_table "users", force: :cascade do |t|
     t.string   "first_name",      limit: 255
     t.string   "last_name",       limit: 255
@@ -87,8 +74,8 @@ ActiveRecord::Schema.define(version: 20160209172414) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
+  add_foreign_key "file_uploads", "users"
   add_foreign_key "request_messages", "file_uploads"
   add_foreign_key "request_messages", "users"
   add_foreign_key "tpa_csps", "file_uploads"
-  add_foreign_key "tpas", "file_uploads"
 end
