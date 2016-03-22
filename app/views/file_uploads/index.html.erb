@@ -1,8 +1,8 @@
-<% if !flash[:notice].blank? %>
-   <div class = "alert alert-info">
-      <%= flash[:notice] %>
-   </div>
-<% end %>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <%= render 'shared/flash_messages' %>
+    </div>  
+</div>
 <br />
 <%= render 'users/user'%>
 <div class="col-md-1">

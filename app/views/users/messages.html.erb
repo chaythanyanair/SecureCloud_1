@@ -10,21 +10,20 @@
   <h3>&nbsp;&nbsp;&nbsp;Messages</h3>
 <div class="col-sm-7">
             <ul class="nav nav-tabs" data-tabs="tabs">
-            <li><a href="#tab1default" data-toggle="tab"> Audit Requests</a></li>
+            <li class="active"><a href="#tab1default" data-toggle="tab"> Audit Requests</a></li>
             <li><a href="#tab2default" data-toggle="tab"> Update Messages</a> </li>
             <li><a href="#tab3default" data-toggle="tab"> Audit Responses </a></li> 
             </ul>
         </div>
 <div class="row">
     <div id="my-tab-content" class="tab-content">
-    <div class="tab-pane fade" id="tab1default">
+    <div class="tab-pane fade in active" id="tab1default">
 	<div class="col-md-5">
 	<table class = "table table-bordered table-striped" width="0%">
   	<thead>
     <tr>
       <th>Status Code</th>
       <th>File Id</th>
-      <th>Hash value</th>
     </tr>
   </thead>
 
@@ -34,7 +33,6 @@
       <tr>
         <td><%= req.status_code %></td>
         <td><%= req.file_upload_id %></td>
-        <td><%= req.file_hash %></td>
       </tr>
     <% end %>
    <%end%>
@@ -77,18 +75,25 @@
     <tr>
       <th>Status Code</th>
       <th>File Id</th>
-      <th>Hash value</th>
+      <th>Response</th>
       
     </tr>
   </thead>
 
   <tbody>
     <% @req.each do |req| %>
+    <% file_id=req.file_upload_id %>
     <% if(req.status_code==504)%>
       <tr>
         <td><%= req.status_code %></td>
         <td><%= req.file_upload_id %></td>
         <td><%= req.file_hash %></td>
+        <td><% @file.each do |file_upload| %>
+              <% if(file_upload.id==req.file_upload_id)%>
+                <%= link_to file_upload.attachment_url, class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+                  <i class="glyphicon glyphicon-save"></i><%end%>
+              <% end %>
+            <% end %></td>
       </tr>
     <% end %>
     <% end %>

@@ -6,10 +6,48 @@
     <link rel="stylesheet" href="users.scss">
 </head>
 <body>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <%= render 'shared/flash_messages' %>
+    </div>  
+</div>
 <%=render 'tpa'%>
-<br>
-<br>
+<div class="col-sm-7">
+            <ul class="nav nav-tabs" data-tabs="tabs">
+            <li class="active"><a href="#tab1default" data-toggle="tab"> Audit Requests</a></li>
+            <li><a href="#tab2default" data-toggle="tab"> Update Messages</a> </li>
+            <li><a href="#tab3default" data-toggle="tab"> CSP Responses </a></li> 
+            </ul>
+        </div>
+<div class="row">
+<div id="my-tab-content" class="tab-content">
+<div class="tab-pane fade in active" id="tab1default">        
+<div class="col-md-5">
+<table class = "table table-bordered table-striped" width="0%">
+  <thead>
+    <tr>
+      <th>Status Code</th>
+      <th>File Id</th>
+      <th colspan="5">Action</th>
+    </tr>
+  </thead>
 
+  <tbody>
+    <% @req.each.each do |req| %>
+    <% if(req.status_code==503)%>
+      <tr>
+        <td><%= req.status_code %></td>
+        <td><%= req.file_upload_id %></td>
+        <td><%= link_to tpa_challenge_path(:id => req.id,:tpa_id => 1), class: "btn btn-info",:id => '5',:title => 'Challenge CSP', :rel => 'tooltip' do %><i class="glyphicon glyphicon-share"></i>
+        <% end %></td>
+        <td><%= link_to tpa_path(:id => req.id,:flag=>1), method: :delete, class: "btn btn-danger",:id => '5',:title => 'Delete Message', :rel => 'tooltip' do %><i class="glyphicon glyphicon-trash"></i><% end %></td>
+      </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+</div></div>
+<div class="tab-pane fade" id="tab2default">
 <div class="col-md-5">
 <table class = "table table-bordered table-striped" width="0%">
   <thead>
@@ -17,20 +55,61 @@
       <th>Status Code</th>
       <th>File Id</th>
       <th>Hash value</th>
-      <th colspan="5"></th>
+      <th colspan="5">Action</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @req.each.each do |req| %>
+    <% @req.each do |req| %>
+    <% if(req.status_code==502)%>
       <tr>
         <td><%= req.status_code %></td>
         <td><%= req.file_upload_id %></td>
         <td><%= req.file_hash %></td>
-        <td><%= link_to 'Delete', tpa_path(:id => req.id), method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to tpa_update_hash_path(:id => req.id,:tpa_id => 1), class: "btn btn-warning" ,:id => '5',:title => 'Update hash table', :rel => 'tooltip' do %><i class="glyphicon glyphicon-edit"></i>
+        <% end %></td>
+        <td><%= link_to tpa_path(:id => req.id,:flag=>1), method: :delete, class: "btn btn-danger",:id => '5',:title => 'Delete Message', :rel => 'tooltip' do %><i class="glyphicon glyphicon-trash"></i>
+        <% end %></td>
       </tr>
+    <% end %>
+    <% end %>
+
+  </tbody>
+</table>
+</div>
+</div>
+<div class="tab-pane fade" id="tab3default">
+<div class="col-md-5">
+<table class = "table table-bordered table-striped" width="0%">
+  <thead>
+    <tr>
+      <th>Status Code</th>
+      <th>File Id</th>
+      <th>Response</th>
+      <th colspan="5">Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @resp.each do |resp| %>
+    <% if(resp.status_code==504)%>
+      <tr>
+        <td><%= resp.status_code %></td>
+        <td><%= resp.file_upload_id %></td>
+        <td><%= resp.file_hash %></td>
+        <td><%= link_to tpa_verify_path(:id => resp.id,:tpa_id => 1), class: "btn btn-success",:id => '5',:title => 'Verify File', :rel => 'tooltip' do %><i class="glyphicon glyphicon-check"></i>
+        <% end %></td>
+        <td><%= link_to tpa_path(:id => resp.id), method: :delete, class: "btn btn-danger",:id => '5',:title => 'Delete Message', :rel => 'tooltip' do %><i class="glyphicon glyphicon-trash"></i>
+        <% end %> </td>
+      </tr>
+    <% end %>
     <% end %>
   </tbody>
 </table>
 </div>
+</div>
+</div>
+</div>
+
 </body>
+</html>

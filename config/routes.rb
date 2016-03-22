@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 resources :password_resets,     only: [:new, :create, :edit, :update]
-resources :tpa
-
+  resources :tpa do
+   get '/challenge' => 'tpa#challenge'
+   get '/verify' => 'tpa#verify'
+   get '/update_hash' => 'tpa#update_hash'
+  end
   get 'uploads' => 'file_uploads#index'
   get 'control_panel' => 'control_panels#index'
   resource :control_panel, only: [:index, :new, :create, :destroy]
@@ -13,10 +16,13 @@ resources :tpa
     get 'send_hash'
     get 'blit_tpa_csp'
     get 'blit_tpa_csp_inbox'
+    get 'respond_tpa' 
     get 'list_online_users'
     delete 'delete_message'
     delete 'delete_user'
+
   end
+
   #get 'admin' => 'control_panel#index'
   #get '/admin/files' => 'control_panel#file'
   #get '/admin/users' => 'control_panel#user'

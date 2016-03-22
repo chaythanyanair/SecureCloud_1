@@ -34,7 +34,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', :group => :doc
 #jquery ui
-gem 'jquery-ui-rails'
+#gem 'jquery-ui-rails'
 # Captcha
 gem 'simple_captcha2', require: 'simple_captcha'
 # Use ActiveModel has_secure_password

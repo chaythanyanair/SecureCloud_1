@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   def messages
     @user=User.find(params[:user_id])
     @req=@user.request_messages
-    #@req=@msg.find_by_status_code(502)
+    @file=@user.file_uploads
   end
 	
   def show

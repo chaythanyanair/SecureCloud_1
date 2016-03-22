@@ -11,8 +11,8 @@ class FileUploadsController < ApplicationController
       @file_uploads = FileUpload.find_by_id(params[:file_upload_id])
       @md5 = Digest::MD5.file(@file_uploads.attachment.path).hexdigest 
       @message = RequestMessage.create(:status_code=>502, :file_hash=>@md5, :file_upload_id=>@file_uploads[:id], :user_id=>@id1)
-      #if @message.save
-        redirect_to user_file_uploads_path
+      flash[:success] = "Sent Hash to TPA"
+      redirect_to user_file_uploads_path
       #end
     end
 
@@ -21,10 +21,9 @@ def audit
       @id1 = params[:user_id]
       @file_uploads = FileUpload.find_by_id(params[:file_upload_id])
       @md5 = Digest::MD5.file(@file_uploads.attachment.path).hexdigest 
-      @message = RequestMessage.create(:status_code=>503, :file_hash=>@md5, :file_upload_id=>@file_uploads[:id], :user_id=>@id1)
-      #if @message.save
-        redirect_to user_file_uploads_path
-      #end
+      @message = RequestMessage.create(:status_code=>503, :file_upload_id=>@file_uploads[:id], :user_id=>@id1)
+      flash[:success] = "Audit Request Sent"
+      redirect_to user_file_uploads_path
     end
 
 
@@ -91,7 +90,7 @@ def audit
   # DELETE /file_uploads/1
   # DELETE /file_uploads/1.json
   def destroy
-    @user = User.find(params[:currentuser])
+    @user = User.find(current_user)
     @file_upload=@user.file_uploads.find(params[:id])
     @file_upload.destroy
     respond_to do |format|
@@ -99,22 +98,6 @@ def audit
       format.json { head :no_content }
     end
   end
-
-  def send_hash_val
-    @id = params[:user_id]
-    @user=User.find(@id)
-    @msg = @user.request_messages.new
-    @msg[:file_upload_id] = params[:file_upload_id]
-    @msg[:file_hash] = @user.file_uploads.find(:user_id).hash_val
-    @msg[:status_code] = 500
-    if @msg.save
-      render "show"
-    else
-      render "edit"
-    end
-  end
-
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_file_upload

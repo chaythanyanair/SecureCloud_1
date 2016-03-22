@@ -11,9 +11,10 @@ class ControlPanelsController < ApplicationController
         @count = @count + 1
       end
     end
-
-
   end
+
+
+  
 
   def new
   end
@@ -88,8 +89,17 @@ class ControlPanelsController < ApplicationController
         @count = @count + 1
       end
     end
-
   end
+
+  def respond_tpa
+    @message = TpaCsp.find_by_id(params[:msgid])
+
+    @file_upload = FileUpload.find_by_id(@message.file_upload_id)
+    @md5 = Digest::MD5.file(@file_upload.attachment.path).hexdigest 
+    @message = TpaCsp.create(:status_code=>504, :file_upload_id=>@file_upload[:id], :file_hash =>@md5)
+    redirect_to blit_tpa_csp_inbox_control_panel_path
+  end
+
 
   
 end
