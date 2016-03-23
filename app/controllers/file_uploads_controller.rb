@@ -141,7 +141,7 @@ def audit
     @file.close
 
     send_data(@contents, :filename => File.basename(@file_path))
-    flash[:success] = "File Downloaded" #Success not flashing
+    #flash[:success] = "File Downloaded" #Success not flashing
     
     File.delete(@file_path)
 
