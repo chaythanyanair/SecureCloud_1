@@ -38,6 +38,7 @@ resources :password_resets,     only: [:new, :create, :edit, :update]
     resources :file_uploads do
       get '/send_hash'=>'file_uploads#send_hash'
       get '/audit'=>'file_uploads#audit'
+      get 'decrypt'
     end
 
   end
