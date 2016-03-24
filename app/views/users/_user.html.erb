@@ -4,6 +4,7 @@
     <title><%= @user.first_name.upcase %></title>
 </head>
 <body>
+<div class="side_bar">
 <div class="container">
 <div class="heading">
 <div class="row">
@@ -16,12 +17,17 @@
         <ul>
           <li> <%= link_to user_path(current_user.id), class: "btn btn-info" do %><i class="glyphicon glyphicon-home"></i>
             <% end %></li>
+            
           <li><%= link_to edit_user_path(current_user) ,class: "btn btn-success",:id => '5',:title => 'Edit profile', :rel => 'tooltip' do %><i class="glyphicon glyphicon-pencil"></i>
             <% end %> </li>
+            
           <li><%= link_to user_file_uploads_path(current_user),class: "btn btn-default", :id => '7',:title => 'All Files', :rel => 'tooltip' do %><i class="glyphicon glyphicon-inbox"></i>
             <% end %> </li>
+            
           <li><%= link_to new_user_file_upload_path(current_user) , class: "btn btn-primary", :id => '5',:title => 'Upload new file', :rel => 'tooltip' do %><i class="glyphicon glyphicon-open"></i><% end %></li>
+          
           <li><%= link_to user_messages_path(@user.id),class: "btn btn-warning",:id => '5',:title => 'Messages', :rel => 'tooltip' do %><i class="glyphicon glyphicon-envelope"></i><% end %></li> 
+          
           <li><%= link_to @user, method: :delete,data: { confirm: "You sure?" },class: "btn btn-danger",:id => '5',:title => 'Delete Account', :rel => 'tooltip' do %><i class="glyphicon glyphicon-trash"></i>
           <% end %></li> 
         </ul>

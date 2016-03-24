@@ -1,18 +1,18 @@
-<% if !flash[:notice].blank? %>
-   <div class = "alert alert-info">
-      <%= flash[:notice] %>
-   </div>
-<% end %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" href="bootstrap.css">
-		<link rel="stylesheet" href="control_panel.scss">
-		
-		<TITLE>Inbox</TITLE>
+  <head>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="control_panel.scss">
+    
+    <TITLE>Inbox</TITLE>
 
-	</head>
-	<body>
+  </head>
+  <body>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <%= render 'shared/flash_messages' %>
+    </div>  
+</div>
 	<center>
 		<h1>Listing File Uploads</h1>
 	</center>

@@ -21,7 +21,7 @@ input[type=password] {
   border-radius: 0px; 
   height: 60px;
   margin: 6px auto;
-  text-indent: 10px;
+  text-indent: 60px;
 }
 
 .btn-submit {
@@ -84,3 +84,12 @@ input[type=password] {
 
 }
 
+.i{
+  position:relative;
+  height: 45px;
+  float: right;
+  width:100%;
+  border:none;
+  background:transparent;
+  top:4px;
+}
