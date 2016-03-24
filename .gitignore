@@ -20,4 +20,8 @@ db/migrate/20160104064721_removes_changes_to_request_messages.rb.bak
 db/migrate/20160104064915_add_to_request_messages.rb.bak
 db/migrate/20160209172414_remove_file_request_messages.rb.bak
 public/uploads/*
+db/migrate/.20160318152713_remove_columns_to_request_messages.rb
+db/migrate/.20160321155622_create_tpas.rb
+db/migrate/.20160321155714_add_file_uploads_to_tpa.rb
+db/migrate/.20160324115733_create_keywords.rb
 

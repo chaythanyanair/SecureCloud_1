@@ -74,13 +74,14 @@ class FileUploadsController < ApplicationController
         
         @md5 = Digest::MD5.file(@file_upload.attachment.path).hexdigest
         @file_upload[:hash_val]=@md5
+        
+        @keyword = params[:keywords].split(',')
+        @keyword.each do |keyword|
+          @keyword_enc = Digest::MD5.hexdigest(keyword)
+          @keywords = Keyword.new(:key => @keyword_enc, :file_upload_id =>@file_upload.id)
+          @keywords.save 
+        end
         @file_upload.save
-
-
-        @keyword = params[:keywords]
-        @keyword_enc = AES.encrypt(@keyword, @key)
-        @keywords = Keyword.new(:key => @keyword_enc, :file_upload_id =>@file_upload.id)
-        @keywords.save  
 
 
         format.html { redirect_to user_file_upload_path(@user,@file_upload), notice: 'File was successfully uploaded.' }

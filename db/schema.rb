@@ -11,7 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 20160323100741) do
 
   create_table "file_uploads", force: :cascade do |t|
@@ -93,6 +92,7 @@ ActiveRecord::Schema.define(version: 20160323100741) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
+  add_foreign_key "file_uploads", "users"
   add_foreign_key "keywords", "file_uploads"
   add_foreign_key "request_messages", "file_uploads"
   add_foreign_key "request_messages", "users"
