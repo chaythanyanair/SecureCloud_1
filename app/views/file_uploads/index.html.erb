@@ -29,11 +29,16 @@
               <% end %>
         </td>
         <td><%= file_upload.hash_val %></td>
-        <td><%= link_to file_upload.attachment_url, class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+        
+        <td><%= link_to user_file_upload_decrypt_path(current_user,file_upload), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
         <i class="glyphicon glyphicon-save"></i><%end%></td>
+        
         <td><%= link_to edit_user_file_upload_path(current_user,file_upload), class: "btn btn-warning",:id => '5',:title => 'Edit File Info', :rel => 'tooltip' do %><i class="glyphicon glyphicon-pencil"></i><%end%></td>
+        
         <td><%= link_to user_file_upload_path(current_user,file_upload), method: :delete, class: "btn btn-danger", data: { confirm: 'Are you sure?' },:id => '5',:title => 'Delete File', :rel => 'tooltip' do %><i class="glyphicon glyphicon-trash"></i><%end%></td>
+        
         <td><%= link_to user_file_upload_send_hash_path(current_user,file_upload), class: "btn btn-default",:id => '5',:title => 'Send hash', :rel => 'tooltip' do %><i class="glyphicon glyphicon-send"></i><%end%></td>
+        
         <td><%= link_to user_file_upload_audit_path(current_user,file_upload), class: "btn btn-info",:id => '5',:title => 'Request Audit', :rel => 'tooltip' do %><i class="glyphicon glyphicon-saved"></i><%end%></td>
       </tr>
     <% end %>

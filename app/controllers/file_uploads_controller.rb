@@ -56,16 +56,36 @@ class FileUploadsController < ApplicationController
   def create
     @user=User.find(params[:user_id])
     @file_upload = @user.file_uploads.new(file_upload_params)
-    
+    #flash[:success] = AES.encrypt(@file, @key)    
     respond_to do |format|
       if @file_upload.save
-        format.html { redirect_to user_file_upload_path(@user,@file_upload), notice: 'File was successfully uploaded.' }
-        format.json { render :show, status: :created, location: @file_upload }
-        @md5 = Digest::MD5.file(@file_upload.attachment.path).hexdigest 
+        
+        @file_path = @file_upload.attachment.path
+        @file = File.open(@file_path,"rb")
+        @file_contents = @file.read
+        @file.close
+
+        @key = ENV['encrypt_hash']
+        @enc = AES.encrypt(@file_contents, @key)
+
+        @file = File.open(@file_path,"wb")
+        @file.write(@enc)
+        @file.close    
+        
+        @md5 = Digest::MD5.file(@file_upload.attachment.path).hexdigest
         @file_upload[:hash_val]=@md5
         @file_upload.save
-        @keywords = Keyword.new(:key => params[:keywords], :file_upload_id =>@file_upload.id)
-        @keywords.save
+
+
+        @keyword = params[:keywords]
+        @keyword_enc = AES.encrypt(@keyword, @key)
+        @keywords = Keyword.new(:key => @keyword_enc, :file_upload_id =>@file_upload.id)
+        @keywords.save  
+
+
+        format.html { redirect_to user_file_upload_path(@user,@file_upload), notice: 'File was successfully uploaded.' }
+        format.json { render :show, status: :created, location: @file_upload }
+
       else
         format.html { render :new }
         format.json { render json: @file_upload.errors, status: :unprocessable_entity }
@@ -81,7 +101,9 @@ class FileUploadsController < ApplicationController
       if @file_upload.update(file_upload_params)
         format.html { redirect_to user_file_upload_path, notice: 'File was successfully updated.' }
         format.json { render :show, status: :ok, location: @file_upload }
-        @md5 = Digest::MD5.file(@file_upload.attachment.path).hexdigest 
+        @file = @file_upload.attachment.path
+        @enc = AES.encrypt(@file, Rails.Application.config.encrypt_hash)
+        @md5 = Digest::MD5.file(@enc).hexdigest 
         @file_upload[:hash_val]=@md5
         @file_upload.save
       else
@@ -102,6 +124,48 @@ class FileUploadsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
+  def decrypt
+    @file_recv = FileUpload.find_by_id(params[:file_upload_id])
+    @file_attachment = @file_recv.attachment
+    @file_container = @file_attachment.file
+    @file_path = @file_container.path
+    @file = File.open(@file_path,"rb")
+    @file_contents = @file.read
+    @file.close
+
+    @ext = @file_recv.ftype
+    @file_path = File.dirname(@file_path)+"/tmp."+@ext
+
+    @key = ENV['encrypt_hash']
+    @dec = AES.decrypt(@file_contents, @key)
+
+    @file = File.open(@file_path,"wb")
+    @file.write(@dec)
+    @file.close
+    
+    
+    @file = File.open(@file_path, 'rb')
+    @contents = @file.read
+    @file.close
+
+    send_data(@contents, :filename => File.basename(@file_path))
+    #flash[:success] = "File Downloaded" #Success not flashing
+    
+    File.delete(@file_path)
+
+    #Send file automatically redirects
+    #redirect_to user_file_uploads_path 
+
+
+    #respond_to do |format|
+      #redirect_to (user_file_uploads_path) and return 
+      #format.json { head :no_content }
+    #end
+            
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_file_upload
@@ -110,6 +174,7 @@ class FileUploadsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def file_upload_params
+
       params.require(:file_upload).permit(:fname, :owner, :ftype, :attachment)
     end
 

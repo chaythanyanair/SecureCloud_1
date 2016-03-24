@@ -1,2 +1,7 @@
 CP_USER: "test"
 CP_PASSWORD: "test"
+
+#Super key for encryptions and decryptions
+encrypt_key: "unique_pass_1234"
+encrypt_hash: "3226259b80b06a43ca323d2853546862fd51bc09dca177b7e22b7bcaa749e6a1"
+
