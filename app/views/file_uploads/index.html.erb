@@ -20,10 +20,14 @@
 
   <tbody>
     <% @file_uploads.each do |file_upload| %>
+      <% @keywords = Keyword.where(:file_upload_id => file_upload.id) %>
       <tr>
         <td><%= file_upload.owner %></td>
         <td><%= file_upload.fname %></td>
-        <td><%= file_upload.keywords %></td>
+        <td><% @keywords.each do |keyword| %>
+              <%= keyword.key %> 
+              <% end %>
+        </td>
         <td><%= file_upload.hash_val %></td>
         <td><%= link_to file_upload.attachment_url, class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
         <i class="glyphicon glyphicon-save"></i><%end%></td>

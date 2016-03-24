@@ -14,9 +14,9 @@ class FileUploadsController < ApplicationController
       flash[:success] = "Sent Hash to TPA"
       redirect_to user_file_uploads_path
       #end
-    end
+  end
 
-def audit
+  def audit
       @user = User.find(params[:user_id])
       @id1 = params[:user_id]
       @file_uploads = FileUpload.find_by_id(params[:file_upload_id])
@@ -24,18 +24,21 @@ def audit
       @message = RequestMessage.create(:status_code=>503, :file_upload_id=>@file_uploads[:id], :user_id=>@id1)
       flash[:success] = "Audit Request Sent"
       redirect_to user_file_uploads_path
-    end
+  end
 
 
   def index
     @user=User.find(params[:user_id])
     @file_uploads = @user.file_uploads.paginate(page: params[:page], :per_page => 10)
+    
   end
 
   # GET /file_uploads/1
   # GET /file_uploads/1.json
   def show
     @user=User.find(params[:user_id])
+    @file = FileUpload.find(params[:id])
+    @keywords = Keyword.where(:file_upload_id => @file.id)
   end
 
   # GET /file_uploads/new
@@ -53,7 +56,7 @@ def audit
   def create
     @user=User.find(params[:user_id])
     @file_upload = @user.file_uploads.new(file_upload_params)
-
+    
     respond_to do |format|
       if @file_upload.save
         format.html { redirect_to user_file_upload_path(@user,@file_upload), notice: 'File was successfully uploaded.' }
@@ -61,7 +64,8 @@ def audit
         @md5 = Digest::MD5.file(@file_upload.attachment.path).hexdigest 
         @file_upload[:hash_val]=@md5
         @file_upload.save
-
+        @keywords = Keyword.new(:key => params[:keywords], :file_upload_id =>@file_upload.id)
+        @keywords.save
       else
         format.html { render :new }
         format.json { render json: @file_upload.errors, status: :unprocessable_entity }
@@ -106,11 +110,13 @@ def audit
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def file_upload_params
-      params.require(:file_upload).permit(:fname, :owner, :ftype, :keywords, :attachment)
+      params.require(:file_upload).permit(:fname, :owner, :ftype, :attachment)
     end
 
     def send_hash_params
       params.require(:request_message).permit(:user_id, :file_upload_id)
     end
+
+
 
 end

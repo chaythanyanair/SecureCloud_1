@@ -18,7 +18,9 @@
 
 <p>
   <strong>Keywords:</strong>
-  <%= @file_upload.keywords %>
+   <% @keywords.each do |keyword| %>
+   <%= keyword.key %> 
+   <% end %>
 </p>
 
 <p>

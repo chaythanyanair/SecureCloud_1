@@ -11,21 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321155714) do
+ActiveRecord::Schema.define(version: 20160323100741) do
 
   create_table "file_uploads", force: :cascade do |t|
     t.string   "fname",      limit: 255
     t.string   "owner",      limit: 255
     t.string   "ftype",      limit: 255
-    t.text     "keywords",   limit: 65535
     t.string   "attachment", limit: 255
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.string   "hash_val",   limit: 255,   default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "hash_val",   limit: 255, default: ""
     t.integer  "user_id",    limit: 4
   end
 
   add_index "file_uploads", ["user_id"], name: "index_file_uploads_on_user_id", using: :btree
+
+  create_table "keywords", force: :cascade do |t|
+    t.string   "key",            limit: 255
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "file_upload_id", limit: 4
+  end
+
+  add_index "keywords", ["file_upload_id"], name: "index_keywords_on_file_upload_id", using: :btree
 
   create_table "request_messages", force: :cascade do |t|
     t.string   "file_hash",      limit: 255
@@ -84,7 +92,7 @@ ActiveRecord::Schema.define(version: 20160321155714) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
-  add_foreign_key "file_uploads", "users"
+  add_foreign_key "keywords", "file_uploads"
   add_foreign_key "request_messages", "file_uploads"
   add_foreign_key "request_messages", "users"
   add_foreign_key "tpa_csps", "file_uploads"

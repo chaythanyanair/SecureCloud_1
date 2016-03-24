@@ -24,8 +24,8 @@
       <%= f.label :filetype %><br>
       <%= f.text_field :ftype %>
       
-      <%= f.label :keywords %><br>
-      <%= f.text_area :keywords %>
+      <label for="keywords">Keywords</label>
+      <%= text_area_tag :keywords %> 
 
       <%= f.label :Attachment %>
       <%= f.file_field :attachment %>

@@ -4,6 +4,8 @@ class ControlPanelsController < ApplicationController
   $login_time = DateTime.now
   def index
     @message_count = TpaCsp.where(:status_code =>503).count
+    @file_count = FileUpload.count
+    @user_count = User.count
     @users = User.all
     @count=0
     @users.each do |user|
@@ -57,7 +59,7 @@ class ControlPanelsController < ApplicationController
   end
 
   def blit_tpa_csp
-    @messages = TpaCsp.where(:status_code =>502)
+    @messages = TpaCsp.where(:status_code =>504)
   end
 
   def blit_tpa_csp_inbox
