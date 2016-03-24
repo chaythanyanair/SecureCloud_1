@@ -44,7 +44,7 @@
                                         <% if !(@message_count==1) %> 
                                         <div>New Messages!</div>
                                         <% else %>
-                                        <div>New Message!</div>
+                                        <div>New message!</div>
                                         <% end %>
                                     </div>
                                 </div>
@@ -68,18 +68,18 @@
                                         <i class="fa fa-comments fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><%= @message_count %></div>
-                                        <% if !(@message_count==1) %> 
-                                        <div>Responses!</div>
+                                        <div class="huge"><%= @user_count %></div>
+                                        <% if !(@user_count==1) %> 
+                                        <div>Users!</div>
                                         <% else %>
-                                        <div>New Message!</div>
+                                        <div>User!</div>
                                         <% end %>
                                     </div>
                                 </div>
                             </div>
                             <a href="#">
                                 <div class="panel-footer">
-                                    <%= link_to 'View Details', blit_tpa_csp_inbox_control_panel_path,class: "btn btn-defult" %>
+                                    <%= link_to 'View Details', user_control_panel_path,class: "btn btn-defult" %>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                     <div class="clearfix"></div>
                                 </div>
@@ -97,11 +97,11 @@
                                         <i class="fa fa-comments fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><%= @message_count %></div>
-                                        <% if !(@message_count==1) %> 
+                                        <div class="huge"><%= @file_count %></div>
+                                        <% if !(@file_count==1) %> 
                                         <div>Files in All</div>
                                         <% else %>
-                                        <div>New Message!</div>
+                                        <div>File in All</div>
                                         <% end %>
                                     </div>
                                 </div>
@@ -128,10 +128,10 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <div class="huge"><%= @count %></div>
-                                        <% if !(@message_count==1) %> 
-                                        <div>Users Online</div>
+                                        <% if !(@count==1) %> 
+                                            <div>User Online</div>
                                         <% else %>
-                                        <div>New Message!</div>
+                                        <div>Users Online</div>
                                         <% end %>
                                     </div>
                                 </div>

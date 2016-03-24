@@ -21,10 +21,13 @@
 
       <%= f.label :filetype %><br>
       <%= f.text_field :ftype %>
-      
-      <%= f.label :keywords %><br>
-      <%= f.text_area :keywords %><br>
 
+      <label for="keywords">Keywords</label>
+      <%= text_area_tag :keywords %> 
+      
+    
+
+      <br><br>
       <%= f.label :Attachment %>
       <%= f.file_field :attachment %>
 		      
