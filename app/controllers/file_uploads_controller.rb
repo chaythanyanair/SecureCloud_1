@@ -70,16 +70,27 @@ class FileUploadsController < ApplicationController
 
         @file = File.open(@file_path,"wb")
         @file.write(@enc)
-        @file.close    
-        
+        @file.close
+
+        @file_upload[:fname] = AES.encrypt(params[:file_upload][:fname], @key)
+
         @md5 = Digest::MD5.file(@file_upload.attachment.path).hexdigest
         @file_upload[:hash_val]=@md5
         
         @keyword = params[:keywords].split(',')
         @keyword.each do |keyword|
-          @keyword_enc = Digest::MD5.hexdigest(keyword)
-          @keywords = Keyword.new(:key => @keyword_enc, :file_upload_id =>@file_upload.id)
-          @keywords.save 
+          if keyword.length < 3
+            s = gram_fuzzy_set(keyword,0)
+          elsif keyword.length < 6
+            s = gram_fuzzy_set(keyword,1)
+          else
+            s = gram_fuzzy_set(keyword,2)
+          end
+          for i in s
+            @keyword_enc = Digest::MD5.hexdigest(i)
+            @keywords = Keyword.new(:key => @keyword_enc, :file_upload_id =>@file_upload.id)
+            @keywords.save
+          end
         end
         @file_upload.save
 
@@ -100,13 +111,44 @@ class FileUploadsController < ApplicationController
     respond_to do |format|
 
       if @file_upload.update(file_upload_params)
+        @file_path = @file_upload.attachment.path
+        @file = File.open(@file_path,"rb")
+        @file_contents = @file.read
+        @file.close
+
+        @key = ENV['encrypt_hash']
+        @enc = AES.encrypt(@file_contents, @key)
+
+        @file = File.open(@file_path,"wb")
+        @file.write(@enc)
+        @file.close    
+        
+        @file_upload[:fname] = AES.encrypt(params[:file_upload][:fname], @key)
+
+        @md5 = Digest::MD5.file(@file_upload.attachment.path).hexdigest
+        @file_upload[:hash_val]=@md5
+
+        Keyword.where(:file_upload_id =>@file_upload.id).delete_all
+        
+        @keyword = params[:keywords].split(',')
+        @keyword.each do |keyword|
+          if keyword.length < 3
+            s = gram_fuzzy_set(keyword,0)
+          elsif keyword.length < 6
+            s = gram_fuzzy_set(keyword,1)
+          else
+            s = gram_fuzzy_set(keyword,2)
+          end
+          for i in s
+            @keyword_enc = Digest::MD5.hexdigest(i)
+            @keywords = Keyword.new(:key => @keyword_enc, :file_upload_id =>@file_upload.id)
+            @keywords.save
+          end
+        end
+        
+        @file_upload.save
         format.html { redirect_to user_file_upload_path, notice: 'File was successfully updated.' }
         format.json { render :show, status: :ok, location: @file_upload }
-        @file = @file_upload.attachment.path
-        @enc = AES.encrypt(@file, Rails.Application.config.encrypt_hash)
-        @md5 = Digest::MD5.file(@enc).hexdigest 
-        @file_upload[:hash_val]=@md5
-        @file_upload.save
       else
         format.html { render :edit }
         format.json { render json: @file_upload.errors, status: :unprocessable_entity }
@@ -183,6 +225,23 @@ class FileUploadsController < ApplicationController
       params.require(:request_message).permit(:user_id, :file_upload_id)
     end
 
+    #Function to compute gram based fuzzy set of a keyword
+    def gram_fuzzy_set(w,d)
+      s = [w]
+
+      for i in 1..d
+        for j in 0..s.size-1
+          for k in 0..s[j].length-1
+            fuzzy = s[j][0..s[j].length-1]
+            fuzzy.slice!(k)
+            if !s.include?(fuzzy)
+              s << fuzzy
+            end
+          end
+        end
+      end
+      return s
+    end
 
 
 end

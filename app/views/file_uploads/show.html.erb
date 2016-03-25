@@ -3,7 +3,7 @@
 <p id="notice"><%= notice %></p>
 <p>
   <strong>Fname:</strong>
-  <%= @file_upload.fname %>
+  <%= AES.decrypt(@file_upload.fname, ENV['encrypt_hash']) %>
 </p>
 
 <p>

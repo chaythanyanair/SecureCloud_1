@@ -19,12 +19,12 @@
       <%= f.text_field :owner %>
 
       <%= f.label :filename %><br>
-      <%= f.text_field :fname %>
+      <%= f.text_field :fname, :value => AES.decrypt(@file_upload.fname, ENV['encrypt_hash'])%>
 
       <%= f.label :filetype %><br>
       <%= f.text_field :ftype %>
       
-      <label for="keywords">Keywords</label>
+      <label for="keywords">Keywords(comma separated)</label><br>
       <%= text_area_tag :keywords %> 
 
       <%= f.label :Attachment %>

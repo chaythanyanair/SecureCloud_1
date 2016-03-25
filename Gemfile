@@ -49,6 +49,9 @@ gem 'bcrypt', '~> 3.1.7'
 #Use aes for encryption
 gem 'aes', '~> 0.5.0'
 
+#Gem for searchable encryption
+#gem 'sse', :git => 'https://github.com/k-hari-93/sse.git'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'

@@ -20,10 +20,10 @@
 
   <tbody>
     <% @file_uploads.each do |file_upload| %>
-      <% @keywords = Keyword.where(:file_upload_id => file_upload.id) %>
+      <% @keywords = Keyword.where(:file_upload_id => file_upload.id).limit(3) %>
       <tr>
         <td><%= file_upload.owner %></td>
-        <td><%= file_upload.fname %></td>
+        <td><%= AES.decrypt(file_upload.fname, ENV['encrypt_hash']) %></td>
         <td><% @keywords.each do |keyword| %>
               <%= keyword.key %> 
               <% end %>
