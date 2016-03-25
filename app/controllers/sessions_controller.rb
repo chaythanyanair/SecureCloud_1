@@ -15,23 +15,23 @@ class SessionsController < ApplicationController
                 @user.save
           			#redirect_to :action 'users#show', id: @user.id
           			redirect_to current_user
-          		end
-    	         else
-          		flash[:danger] = 'Invalid email/password combination' 
-          		redirect_to '/login' #unsuccessful login
-  		  end 
+          end
+    	else
+        flash[:danger] = 'Invalid email/password combination' 
+        redirect_to '/login' #unsuccessful login
+  		end 
 	end
   #def show
     #render '/user'
    # @user=User.find(params[:id])
   #end'''
 	def destroy  #logout
-        @user = User.find(session[:user_id])
-        @user[:online] =  false
-        @user.save
-    		session[:user_id]=nil
-        redirect_to '/'
-  	end
+    @user = User.find(session[:user_id])
+    @user[:online] =  false
+    @user.save
+    session[:user_id]=nil
+    redirect_to '/'
+  end
   #def redirect #method to redirect the page to user profile
     #  redirect_to action:'show', id: current_user.id
   #end
