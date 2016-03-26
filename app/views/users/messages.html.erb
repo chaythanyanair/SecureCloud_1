@@ -13,6 +13,7 @@
             <li class="active"><a href="#tab1default" data-toggle="tab"> Audit Requests</a></li>
             <li><a href="#tab2default" data-toggle="tab"> Update Messages</a> </li>
             <li><a href="#tab3default" data-toggle="tab"> Audit Responses </a></li> 
+            <li><a href="#tab4default" data-toggle="tab"> Shared Files </a></li>           
             </ul>
         </div>
 <div class="row">
@@ -84,19 +85,48 @@
     <% @req.each do |req| %>
     <% file_id=req.file_upload_id %>
     <% if(req.status_code==504)%>
+    <%@file=FileUpload.find(req.file_upload_id)%>
       <tr>
         <td><%= req.status_code %></td>
         <td><%= req.file_upload_id %></td>
         <td><%= req.file_hash %></td>
-        <td><% @file.each do |file_upload| %>
-              <% if(file_upload.id==req.file_upload_id)%>
-                <%= link_to file_upload.attachment_url, class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
-                  <i class="glyphicon glyphicon-save"></i><%end%>
-              <% end %>
-            <% end %></td>
+        <td><%= link_to user_file_upload_decrypt_path(current_user,@file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+          <i class="glyphicon glyphicon-save"></i><%end%></td>
       </tr>
     <% end %>
     <% end %>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="tab-pane fade" id="tab4default">
+<div class="col-md-5">
+<table class = "table table-bordered table-striped" width="0%">
+  <thead>
+    <tr>
+      <th>Status Code</th>
+      <th>File Name</th>
+      <th>File Owner</th>
+      <th colspan="5">Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @req.each do |req| %>
+    <% if(req.status_code==505)%>
+    <%@file=FileUpload.find(req.file_upload_id)%>
+   
+      <tr>
+        <td><%= req.status_code %></td>
+        <td><%= AES.decrypt(@file.fname, ENV['encrypt_hash']) %></td>
+        <td><%= req.file_hash %></td>
+        <td><%= link_to user_file_upload_decrypt_path(current_user,@file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+          <i class="glyphicon glyphicon-save"></i><%end%></td>
+        <td><%= link_to user_file_upload_audit_path(current_user,@file), class: "btn btn-info",:id => '5',:title => 'Request Audit', :rel => 'tooltip' do %><i class="glyphicon glyphicon-saved"></i><%end%></td>
+      </tr>
+    <% end %>
+    <% end %>
+
   </tbody>
 </table>
 </div>

@@ -17,3 +17,14 @@
 $(document).ready(function(){
    $("5").tooltip();
 });
+$(document).ready(function(){
+ $("#div1").hide();
+  $("input[name=wanted]").change(function(){
+  	if(this.value=='Selected Users' && this.checked){
+  		$('#div1').show();
+  	}
+  	else{ $('#div1').hide();
+  	}
+  });
+  
+});

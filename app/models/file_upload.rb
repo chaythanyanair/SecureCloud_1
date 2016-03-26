@@ -3,7 +3,11 @@ class FileUpload < ActiveRecord::Base
 	has_many :tpa_csps, :dependent=>:destroy
 	has_many :tpas, :dependent => :destroy
    has_many :keywords, :dependent => :destroy
-   	belongs_to :user
+   has_many :shared_users, :dependent => :destroy
+   belongs_to :user
+   default_scope -> { order(created_at: :desc) }
+
+
    	mount_uploader :attachment, AttachmentUploader # Tells rails to use this uploader for this model.
    	validates :owner, presence: true # Make sure the owner's name is present.
    	validates :fname, presence: true 

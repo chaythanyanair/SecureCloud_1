@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 
 	has_many :file_uploads, :dependent => :destroy
   has_many :request_messages, :dependent => :destroy
+  has_many :shared_users, :dependent => :destroy
    # Returns the hash digest of the given string.
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
