@@ -39,6 +39,7 @@ class UsersController < ApplicationController
         redirect_to tpa_path(@user)
       end
    end
+   #@keywords = Keyword.all
   end
   def edit
    @user=User.find(params[:id])

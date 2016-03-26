@@ -20,11 +20,10 @@
         <div class="form-group has-feedback">
         <label class="control-label">Fuzzy Keyword Search</label>
         <%= form_tag(fuzzy_fuzzy_search_path,:method => 'post',class: 'navbar-form', id: "search-form") do %>
-        <% #raise @user.id %>
      <div class="input-group">
+     <%= hidden_field_tag :tab , @user.id %>
       <%= text_field_tag :search, params[:search], size:50, placeholder: "Fuzzy Keyword Search(comma separated)", class: "form-control" %>
-      <div class="input-group-btn">
-      <%= hidden_field_tag :tab , @user.id %>
+    <div class="input-group-btn">
       <%= button_tag(type: "submit", class: "btn btn-default") do %>
         <i class="glyphicon glyphicon-search"></i>
       <% end %>
@@ -33,5 +32,36 @@
         </div>
         </div>
     </div>
+    <div class="col-xs-12 col-sm-6 col-md-8">
+    <br><br>
+
+    <table class = "table table-bordered table-striped">
+      <thead>
+      <tr>
+          <th>Owner</th>
+          <th>Filename</th>
+          <th colspan="1"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+        <% if (@file_recs) %>
+        <% @file_recs.each do |file_rec| %>
+          <% file_rec.each do |file| %>
+          <% @user = User.find_by_id(file.user_id) %>
+          <tr>
+            <td><%= @user.first_name + " " +@user.last_name  %></td>
+            <td><%= AES.decrypt(file.fname, ENV['encrypt_hash']) %></td>
+            <td><%= link_to user_file_upload_decrypt_path(current_user,file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+             <i class="glyphicon glyphicon-save"></i><%end%></td>
+          </tr>
+          <%end %>
+        <% end %>
+        <%end %>
+      </tbody>
+    </table>
+
+</div>
+
 </body>
 </html>

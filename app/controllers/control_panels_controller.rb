@@ -25,6 +25,7 @@ class ControlPanelsController < ApplicationController
 
   def file
   	@file_uploads = FileUpload.all
+    @keywords  = Keyword.all
   end
 
   def user
@@ -102,3 +103,8 @@ class ControlPanelsController < ApplicationController
 
   
 end
+
+
+
+  
+

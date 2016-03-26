@@ -1,0 +1,2 @@
+module FuzzyHelper
+end

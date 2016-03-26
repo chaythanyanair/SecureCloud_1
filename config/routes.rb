@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  post 'fuzzy/fuzzy_search'
+  get 'fuzzy/authorize'
+
 resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :tpa do
    get '/challenge' => 'tpa#challenge'
@@ -20,8 +23,11 @@ resources :password_resets,     only: [:new, :create, :edit, :update]
     get 'list_online_users'
     delete 'delete_message'
     delete 'delete_user'
-
   end
+
+
+
+  
 
   #get 'admin' => 'control_panel#index'
   #get '/admin/files' => 'control_panel#file'
@@ -39,6 +45,7 @@ resources :password_resets,     only: [:new, :create, :edit, :update]
       get '/send_hash'=>'file_uploads#send_hash'
       get '/audit'=>'file_uploads#audit'
       get 'decrypt'
+      
     end
 
   end
