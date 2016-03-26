@@ -54,11 +54,15 @@
 
   		<tbody>
     		<% @file_uploads.each do |file_upload| %>
+        <% @keywords = Keyword.where(:file_upload_id => file_upload.id).limit(3) %>
       		<tr>
             <td><%= file_upload.id %></td>
         		<td><%= file_upload.user.first_name + " " +file_upload.user.last_name  %></td>
         		<td><%= file_upload.fname %></td>
-		        <td><%= file_upload.keywords %></td>
+		        <td><% @keywords.each do |keyword| %>
+              <%= keyword.key %> 
+              <% end %>
+            </td>
 		        <td><%= file_upload.attachment %></td>
        			<td><%= link_to 'Send Hash',send_hash_control_panel_path(@file_uploads, :fileid =>file_upload.id),class: "btn btn-info"%></td>
       		</tr>
