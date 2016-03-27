@@ -103,7 +103,6 @@ ActiveRecord::Schema.define(version: 20160326065944) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
-  add_foreign_key "file_uploads", "users"
   add_foreign_key "keywords", "file_uploads"
   add_foreign_key "request_messages", "file_uploads"
   add_foreign_key "request_messages", "users"

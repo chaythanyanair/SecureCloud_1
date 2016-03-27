@@ -1,6 +1,6 @@
 class FuzzyController < ApplicationController
   def fuzzy_search
-    @keyword = params[:search].split(',')
+    @keyword = params[:search].split()
     @keyword_fuzz = []
     @keyword.each do |keyword|
           if keyword.length < 3
@@ -31,17 +31,19 @@ class FuzzyController < ApplicationController
     end
 
     @file_ids = @file_ids.uniq
-    redirect_to fuzzy_authorize_path(:userid => params[:tab], :files => @file_ids)  
+    redirect_to fuzzy_authorize_path(:userid => params[:tab], :files => @file_ids, :search => params[:search])  
     
   end
 
   def authorize
 
   	@user = User.find_by_id(params[:userid])
+    @search = params[:search]
   	@file_ids = params[:files]
   	@file_recs = []
-  	if (@file_ids)
+  	if (@file_ids) #authorising users
   		@file_ids.each do |file_id|
+
   		  @temps = FileUpload.find(file_id)
         if(@user.id==@temps.user_id or @temps.shared_with == "Public")
           @file_recs << @temps
@@ -54,9 +56,28 @@ class FuzzyController < ApplicationController
         end
       end
         #@file_recs << @temps
-  	  end
-    
+    end
+    @image_files = ["jpg","png","jpeg","bmp"]
+    @presentation_files = ["odt","ppt"]
+    @video_files = ["mp4","3gp"]
+    @office_files = ["doc"]
+
+  end
   	#raise @file_recs
+
+
+  def audit
+    @user = User.find(params[:user_id])
+    @id1 = params[:user_id]
+    @file_uploads = FileUpload.find_by_id(params[:file_upload_id])
+    @md5 = Digest::MD5.file(@file_uploads.attachment.path).hexdigest 
+    @message = RequestMessage.create(:status_code=>503, :file_upload_id=>@file_uploads[:id], :user_id=>@id1)
+    flash[:success] = "Audit Request Sent"
+    #raise
+
+    redirect_to fuzzy_authorize_path(:search => params[:search],:userid => params[:user_id], :files => params[:files])
+
+  end
 
   end
 

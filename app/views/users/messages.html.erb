@@ -90,9 +90,9 @@
         <td><%= req.status_code %></td>
         <td><%= req.file_upload_id %></td>
         <td><%= req.file_hash %></td>
+
         <td><%= link_to user_file_upload_decrypt_path(current_user,@file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
           <i class="glyphicon glyphicon-save"></i><%end%></td>
-      </tr>
     <% end %>
     <% end %>
   </tbody>
