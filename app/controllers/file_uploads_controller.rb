@@ -212,7 +212,7 @@ class FileUploadsController < ApplicationController
 
     @key = ENV['encrypt_hash']
     @dec = AES.decrypt(@file_contents, @key)
-
+    
     @file = File.open(@file_path,"wb")
     @file.write(@dec)
     @file.close

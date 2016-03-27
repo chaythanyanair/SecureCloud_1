@@ -11,10 +11,14 @@ class TpaController < ApplicationController
   def destroy
     if(params[:flag])
       @req = RequestMessage.find_by_id(params[:id])
-      #@req.destroy
+      if @req.present?
+        @req.destroy
+      end
     else
       @resp = TpaCsp.find_by_id(params[:id])
-      #@resp.destroy
+      if @resp.present?
+        @resp.destroy
+      end
     end
     flash[:success] = "Message Deleted"
     @user = User.find_by_id(1)
