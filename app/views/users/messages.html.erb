@@ -90,7 +90,7 @@
         <td><%= req.file_hash %></td>
         <td><% @file.each do |file_upload| %>
               <% if(file_upload.id==req.file_upload_id)%>
-                <%= link_to file_upload.attachment_url, class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+                <%= link_to user_file_upload_decrypt_path(current_user,file_upload), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
                   <i class="glyphicon glyphicon-save"></i><%end%>
               <% end %>
             <% end %></td>
