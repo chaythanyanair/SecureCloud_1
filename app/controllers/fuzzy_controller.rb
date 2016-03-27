@@ -55,14 +55,40 @@ class FuzzyController < ApplicationController
           end
         end
       end
-        #@file_recs << @temps
+       
     end
     @image_files = ["jpg","png","jpeg","bmp"]
     @presentation_files = ["odt","ppt"]
     @video_files = ["mp4","3gp"]
     @office_files = ["doc"]
 
+    @image_count = 0
+    @presentation_count = 0
+    @video_count = 0
+    @office_count = 0
+    @pdf_count = 0
+    @other_count = 0
+
+    @file_recs.each do |file| 
+      if(file.ftype=="pdf")
+        @pdf_count = @pdf_count+1
+        
+      elsif @image_files.include? file.ftype
+        @image_count = @image_count+1
+      elsif @presentation_files.include? file.ftype
+        @presentation_count = @presentation_count+1
+      elsif @office_files.include? file.ftype
+
+        @office_count = @office_count+1
+      elsif @video_files.include? file.ftype
+        @video_count = @video_count+1
+      else 
+        @other_count = @other_count+1
+      end
+    end
+    
   end
+
   	#raise @file_recs
 
 
