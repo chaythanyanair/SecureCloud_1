@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   post 'fuzzy/fuzzy_search'
   get 'fuzzy/authorize'
+  post 'fuzzy/audit'
 
 resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :tpa do

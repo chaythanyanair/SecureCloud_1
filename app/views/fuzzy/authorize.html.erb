@@ -12,17 +12,17 @@
         <%= render 'shared/flash_messages' %>
     </div>    
 </div> 
- 
+
 <%= render 'user'%>
-<%= render 'user_info'%>
-<br><br><br><br>  
+    <div class="col-md-7 col-sm-7 col-lg-7">   
+    </div>
     <div class="col-md-7 col-sm-7 col-lg-7">     
         <div class="form-group has-feedback">
         <label class="control-label">Fuzzy Keyword Search</label>
         <%= form_tag(fuzzy_fuzzy_search_path,:method => 'post',class: 'navbar-form', id: "search-form") do %>
      <div class="input-group">
      <%= hidden_field_tag :tab , @user.id %>
-      <%= text_field_tag :search, params[:search], size:50, placeholder: "Fuzzy Keyword Search(comma separated)", class: "form-control" %>
+      <%= text_field_tag :search, params[:search], size:50, placeholder: "Fuzzy Keyword Search", class: "form-control" %>
     <div class="input-group-btn">
       <%= button_tag(type: "submit", class: "btn btn-default") do %>
         <i class="glyphicon glyphicon-search"></i>
@@ -32,36 +32,218 @@
         </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-8">
+    <div class="col-lg-11 col-sm-7 col-md-7">
     <br><br>
+    <% if (@file_recs) %>
 
-    <table class = "table table-bordered table-striped">
-      <thead>
-      <tr>
+      <div class="col-sm-7">
+            <ul class="nav nav-tabs" data-tabs="tabs">
+            <li class="active"><a href="#tab1default" data-toggle="tab">Pdfs</a></li>
+            <li><a href="#tab2default" data-toggle="tab"> Images</a> </li>
+            <li><a href="#tab3default" data-toggle="tab"> Presentations </a></li> 
+            <li><a href="#tab4default" data-toggle="tab"> Docs </a></li>   
+            <li><a href="#tab5default" data-toggle="tab"> Videos </a></li> 
+            <li><a href="#tab6default" data-toggle="tab"> Others </a></li>             
+            </ul>
+      </div>
+<div class="row">
+    <div id="my-tab-content" class="tab-content">
+    <div class="tab-pane fade in active" id="tab1default">
+  <div class="col-md-7">
+  <table class = "table table-bordered table-striped" width="0%">
+    <thead>
+    <tr>
           <th>Owner</th>
           <th>Filename</th>
           <th colspan="1"></th>
-      </tr>
-      </thead>
+    </tr>
+  </thead>
 
-      <tbody>
-        <% if (@file_recs) %>
-        <% @file_recs.each do |file_rec| %>
+  <tbody>
+    <% @file_recs.each do |file_rec| %>
           <% file_rec.each do |file| %>
           <% @user = User.find_by_id(file.user_id) %>
+          <% if(file.ftype=="pdf")%>
           <tr>
             <td><%= @user.first_name + " " +@user.last_name  %></td>
             <td><%= AES.decrypt(file.fname, ENV['encrypt_hash']) %></td>
+            <td><%= link_to  fuzzy_audit_path(:file_upload_id => file.id,:user_id => current_user,:search => @search, :files => @file_ids), :method => 'post', class: "btn btn-info",:id => '5',:title => 'Request Audit', :rel => 'tooltip' do %><i class="glyphicon glyphicon-saved"></i><% end %></td>
             <td><%= link_to user_file_upload_decrypt_path(current_user,file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
              <i class="glyphicon glyphicon-save"></i><%end%></td>
           </tr>
           <%end %>
+          <%end %>
+    <%end %>
+
+  </tbody>
+</table>
+</div>
+</div>
+
+<div class="tab-pane fade" id="tab2default">
+<div class="col-md-7">
+<table class = "table table-bordered table-striped" width="0%">
+  <thead>
+    <tr>
+          <th>Owner</th>
+          <th>Filename</th>
+          <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @file_recs.each do |file_rec| %>
+          <% file_rec.each do |file| %>
+          <% @user = User.find_by_id(file.user_id) %>
+          <% if(@image_files.include? file.ftype)%>
+          <tr>
+            <td><%= @user.first_name + " " +@user.last_name  %></td>
+            <td><%= AES.decrypt(file.fname, ENV['encrypt_hash']) %></td>
+           <td><%= link_to  fuzzy_audit_path(:file_upload_id => file.id,:user_id => current_user,:search => @search, :files => @file_ids), :method => 'post', class: "btn btn-info",:id => '5',:title => 'Request Audit', :rel => 'tooltip' do %><i class="glyphicon glyphicon-saved"></i><% end %></td>
+            <td><%= link_to user_file_upload_decrypt_path(current_user,file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+             <i class="glyphicon glyphicon-save"></i><%end%></td>
+          </tr>
+          <% end %>
+          <% end %>
+    <%end %>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="tab-pane fade" id="tab3default">
+<div class="col-md-7">
+<table class = "table table-bordered table-striped" width="0%">
+  <thead>
+    <tr>
+          <th>Owner</th>
+          <th>Filename</th>
+          <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @file_recs.each do |file_rec| %>
+          <% file_rec.each do |file| %>
+          <% @user = User.find_by_id(file.user_id) %>
+          <% if(@presentation_files.include? file.ftype)%>
+          <tr>
+            <td><%= @user.first_name + " " +@user.last_name  %></td>
+            <td><%= AES.decrypt(file.fname, ENV['encrypt_hash']) %></td>
+            <td><%= link_to  fuzzy_audit_path(:file_upload_id => file.id,:user_id => current_user,:search => @search, :files => @file_ids), :method => 'post', class: "btn btn-info",:id => '5',:title => 'Request Audit', :rel => 'tooltip' do %><i class="glyphicon glyphicon-saved"></i><% end %></td>
+            <td><%= link_to user_file_upload_decrypt_path(current_user,file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+             <i class="glyphicon glyphicon-save"></i><%end%></td>
+          </tr>        
+          <% end %>
         <% end %>
-        <%end %>
-      </tbody>
-    </table>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="tab-pane fade" id="tab4default">
+<div class="col-md-7">
+<table class = "table table-bordered table-striped" width="0%">
+  <thead>
+    <tr>
+          <th>Owner</th>
+          <th>Filename</th>
+          <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+          <% @file_recs.each do |file_rec| %>
+          <% file_rec.each do |file| %>
+          <% @user = User.find_by_id(file.user_id) %>
+          <% if(@office_files.include? file.ftype)%>
+          <tr>
+            <td><%= @user.first_name + " " +@user.last_name  %></td>
+            <td><%= AES.decrypt(file.fname, ENV['encrypt_hash']) %></td>
+            <td><%= link_to  fuzzy_audit_path(:file_upload_id => file.id,:user_id => current_user,:search => @search, :files => @file_ids), :method => 'post', class: "btn btn-info",:id => '5',:title => 'Request Audit', :rel => 'tooltip' do %><i class="glyphicon glyphicon-saved"></i><% end %></td>
+            <td><%= link_to user_file_upload_decrypt_path(current_user,file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+             <i class="glyphicon glyphicon-save"></i><%end%></td>
+          </tr>        
+          <% end %>
+        <% end %>
+    <% end %>
+
+  </tbody>
+</table>
+</div>
+</div>
+
+
+<div class="tab-pane fade" id="tab5default">
+<div class="col-md-7">
+<table class = "table table-bordered table-striped" width="0%">
+  <thead>
+    <tr>
+          <th>Owner</th>
+          <th>Filename</th>
+          <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+          <% @file_recs.each do |file_rec| %>
+          <% file_rec.each do |file| %>
+          <% @user = User.find_by_id(file.user_id) %>
+          <% if(@video_files.include? file.ftype)%>
+          <tr>
+            <td><%= @user.first_name + " " +@user.last_name  %></td>
+            <td><%= AES.decrypt(file.fname, ENV['encrypt_hash']) %></td>
+            <td><%= link_to  fuzzy_audit_path(:file_upload_id => file.id,:user_id => current_user,:search => @search, :files => @file_ids), :method => 'post', class: "btn btn-info",:id => '5',:title => 'Request Audit', :rel => 'tooltip' do %><i class="glyphicon glyphicon-saved"></i><% end %></td>
+            <td><%= link_to user_file_upload_decrypt_path(current_user,file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+             <i class="glyphicon glyphicon-save"></i><%end%></td>
+          </tr>        
+          <% end %>
+        <% end %>
+    <% end %>
+
+  </tbody>
+</table>
+</div>
+</div>
+
+
+<div class="tab-pane fade" id="tab6default">
+<div class="col-md-7">
+<table class = "table table-bordered table-striped" width="0%">
+  <thead>
+    <tr>
+          <th>Owner</th>
+          <th>Filename</th>
+          <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+          <% @file_recs.each do |file_rec| %>
+          <% file_rec.each do |file| %>
+          <% @user = User.find_by_id(file.user_id) %>
+          <% if(!(@video_files.include? file.ftype) and !(@office_files.include? file.ftype) and !(@image_files.include? file.ftype) and !(@presentation_files.include? file.ftype)and !(file.ftype == "pdf") )%>
+          <tr>
+            <td><%= @user.first_name + " " +@user.last_name  %></td>
+            <td><%= AES.decrypt(file.fname, ENV['encrypt_hash']) %></td>
+            <td><%= link_to  fuzzy_audit_path(:file_upload_id => file.id,:user_id => current_user,:search => @search, :files => @file_ids), :method => 'post', class: "btn btn-info",:id => '5',:title => 'Request Audit', :rel => 'tooltip' do %><i class="glyphicon glyphicon-saved"></i><% end %></td>
+            <td><%= link_to user_file_upload_decrypt_path(current_user,file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
+             <i class="glyphicon glyphicon-save"></i><%end%></td>
+          </tr>        
+          <% end %>
+        <% end %>
+    <% end %>
+
+  </tbody>
+</table>
+</div>
+</div>
+
+
 
 </div>
 
+</div>
+<%end %>
+</div>
 </body>
 </html>
