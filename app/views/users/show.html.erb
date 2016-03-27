@@ -20,9 +20,9 @@
 
     <div class="col-md-8 col-sm-8 col-lg-8">     
         <div class="form-group has-feedback">
-        <div class="search"><h1><span class="blue">Fuzzy</span>&nbsp;&nbsp;<span class="black">Search</span><!--<span class='black'>S</span><span class='blue'>e</span><span class='black'>a</span><span class='blue'>r</span><span class='black'>c</span><span class='blue'>h</span></h1>--></div><%= form_tag(fuzzy_fuzzy_search_path,:method => 'post',class: 'navbar-form', id: "search-form") do %>
+        <div class="search"><h1><span class="blue">Fuzzy</span>&nbsp;&nbsp;<span class="black">Search</span></h1><!--<span class='black'>S</span><span class='blue'>e</span><span class='black'>a</span><span class='blue'>r</span><span class='black'>c</span><span class='blue'>h</span></h1>--></div><%= form_tag(fuzzy_fuzzy_search_path,:method => 'post',class: 'navbar-form', id: "search-form") do %>
         
-      
+      <div class="search_again">
      <div class="input-group">
       <%= text_field_tag :search, params[:search], size:50, placeholder: "Fuzzy Keyword Search" %>
 
@@ -35,6 +35,6 @@
         <% end %>
         </div>
         </div>
-    </div>
+    </div></div>
 </body>
 </html>

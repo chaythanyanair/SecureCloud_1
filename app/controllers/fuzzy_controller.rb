@@ -79,8 +79,6 @@ class FuzzyController < ApplicationController
 
   end
 
-  end
-
   private
 
   	def gram_fuzzy_set(w,d)
