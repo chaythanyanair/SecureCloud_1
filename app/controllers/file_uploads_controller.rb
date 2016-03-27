@@ -2,6 +2,8 @@ class FileUploadsController < ApplicationController
   before_action :set_file_upload, only: [:show, :edit, :update]
   before_filter :same_user, only:[:index,:new,:create,:edit,:update,:destroy]
 
+  rescue_from OpenSSL::Cipher::CipherError, with: :encryption_error
+
   # GET /file_uploads
   # GET /file_uploads.json
   
@@ -30,7 +32,6 @@ class FileUploadsController < ApplicationController
   def index
     @user=User.find(params[:user_id])
     @file_uploads = @user.file_uploads.paginate(page: params[:page], :per_page => 10)
-
   end
 
   # GET /file_uploads/1
@@ -157,7 +158,10 @@ class FileUploadsController < ApplicationController
             @keywords.save
           end
         end
-        if(@file_upload.shared_with=="Selected Users")
+        if(@file_upload.shared_with=="Private")
+          @file_upload[:shared_with] = "Private"
+
+        elsif(@file_upload.shared_with=="Selected Users")
             @users = params[:shared_users].split(',')
             @users.each do |users|
               @who = User.find_by_email(users)
@@ -165,7 +169,12 @@ class FileUploadsController < ApplicationController
               @msg = RequestMessage.create(:status_code=>505, :file_upload_id => @file_upload.id, :user_id => @who.id, :file_hash => @file_upload.owner)
               @shared.save
             end
+
+        elsif(@file_upload.shared_with=="Public")
+          @file_upload[:shared_with] = "Public"
+        
         end 
+
         @file_upload.save
         format.html { redirect_to user_file_upload_path, notice: 'File was successfully updated.' }
         format.json { render :show, status: :ok, location: @file_upload }
@@ -263,5 +272,12 @@ class FileUploadsController < ApplicationController
       return s
     end
 
-
+    def encryption_error
+    respond_to do |format|
+      format.html { render :file => "#{Rails.root}/public/encrypt_decrypt", :layout => false, :status => :not_found }
+      format.xml { head :not_found }
+      format.any { head :not_found }
+    end
+  end
+  
 end
