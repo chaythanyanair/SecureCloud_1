@@ -1,5 +1,5 @@
 <%= render 'users/user'%>
-
+<div class="col-sm-10">
 <p id="notice"><%= notice %></p>
 <p>
   <strong>Fname:</strong>
@@ -12,8 +12,12 @@
 </p>
 
 <p>
-  <strong>Ftype:</strong>
+  <strong>File type:</strong>
   <%= @file_upload.ftype %>
+</p>
+<p>
+  <strong>Shared with:</strong>
+  <%= @file_upload.shared_with %>
 </p>
 
 <p>
@@ -28,5 +32,7 @@
   <%= @file_upload.attachment %>
 </p>
 
+
 <%= link_to 'Edit', edit_user_file_upload_path(@user,@file_upload) %> |
 <%= link_to 'Back', user_file_uploads_path %>
+</div>

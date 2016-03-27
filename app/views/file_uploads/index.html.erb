@@ -12,9 +12,10 @@
     <tr>
       <th>Owner</th>
       <th>Filename</th>
+      <th>Shared with</th>
       <th>Keywords</th>
       <th>Hash value</th>
-      <th colspan="3"></th>
+      <th colspan="5">Action</th>
     </tr>
   </thead>
 
@@ -24,6 +25,14 @@
       <tr>
         <td><%= file_upload.owner %></td>
         <td><%= AES.decrypt(file_upload.fname, ENV['encrypt_hash']) %></td>
+        <!--Showing selected users-->
+        <td>
+        <% if file_upload.shared_with=="Selected Users" %>
+        <% @shared = SharedUser.where(:file_upload_id => file_upload.id)%>
+        <% @shared.each do |shared| %>
+          <%@name = User.find(shared.user_id) %>
+          <%=@name.first_name %><%end%><%else%><%= file_upload.shared_with %><%end%></td>
+       
         <td><% @keywords.each do |keyword| %>
               <%= keyword.key %> 
               <% end %>

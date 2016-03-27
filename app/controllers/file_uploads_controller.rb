@@ -30,7 +30,7 @@ class FileUploadsController < ApplicationController
   def index
     @user=User.find(params[:user_id])
     @file_uploads = @user.file_uploads.paginate(page: params[:page], :per_page => 10)
-    #raise @file_recs
+
   end
 
   # GET /file_uploads/1
@@ -57,6 +57,7 @@ class FileUploadsController < ApplicationController
     @user=User.find(params[:user_id])
     @file_upload = @user.file_uploads.new(file_upload_params)
     #flash[:success] = AES.encrypt(@file, @key)    
+    
     respond_to do |format|
       if @file_upload.save
         
@@ -92,6 +93,17 @@ class FileUploadsController < ApplicationController
             @keywords.save
           end
         end
+        #inserting shared users
+        if(@file_upload.shared_with=="Selected Users")
+            @users = params[:shared_users].split(',')
+            @users.each do |users|
+              @who = User.find_by_email(users)
+              @shared = SharedUser.new(:user_id => @who.id , :file_upload_id => @file_upload.id)
+              @msg = RequestMessage.create(:status_code=>505, :file_upload_id => @file_upload.id, :user_id => @who.id, :file_hash => @file_upload.owner)
+              @shared.save
+            end
+        end 
+      
         @file_upload.save
 
 
@@ -145,7 +157,15 @@ class FileUploadsController < ApplicationController
             @keywords.save
           end
         end
-        
+        if(@file_upload.shared_with=="Selected Users")
+            @users = params[:shared_users].split(',')
+            @users.each do |users|
+              @who = User.find_by_email(users)
+              @shared = SharedUser.new(:user_id => @who.id , :file_upload_id => @file_upload.id)
+              @msg = RequestMessage.create(:status_code=>505, :file_upload_id => @file_upload.id, :user_id => @who.id, :file_hash => @file_upload.owner)
+              @shared.save
+            end
+        end 
         @file_upload.save
         format.html { redirect_to user_file_upload_path, notice: 'File was successfully updated.' }
         format.json { render :show, status: :ok, location: @file_upload }
@@ -218,7 +238,7 @@ class FileUploadsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def file_upload_params
 
-      params.require(:file_upload).permit(:fname, :owner, :ftype, :attachment)
+      params.require(:file_upload).permit(:fname, :owner, :ftype, :attachment,:shared_with)
     end
 
     def send_hash_params
