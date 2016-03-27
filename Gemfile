@@ -19,7 +19,8 @@ gem 'mysql2','~> 0.3.18'
 gem 'carrierwave'
 #gem 'rmagick'
 gem 'fog'
-
+#jquery turbolinks
+gem 'jquery-turbolinks'
 #to use bootstrap
 #to use pagination
 gem 'will_paginate',           '3.0.7'

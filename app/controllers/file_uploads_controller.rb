@@ -3,6 +3,7 @@ class FileUploadsController < ApplicationController
   before_filter :same_user, only:[:index,:new,:create,:edit,:update,:destroy]
 
   rescue_from OpenSSL::Cipher::CipherError, with: :encryption_error
+  rescue_from TypeError, with: :encryption_error
 
   # GET /file_uploads
   # GET /file_uploads.json

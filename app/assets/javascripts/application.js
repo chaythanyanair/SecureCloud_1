@@ -12,14 +12,14 @@
 //= require bootstrap
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+//= require jquery.turbolinks
 //= require_tree .
 $(document).ready(function(){
    $("5").tooltip();
 });
 $(document).ready(function(){
  $("#div1").hide();
-  $("input[name=wanted]").change(function(){
+  $("input[name='file_upload[shared_with]']").change(function(){
   	if(this.value=='Selected Users' && this.checked){
   		$('#div1').show();
   	}
