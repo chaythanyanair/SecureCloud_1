@@ -84,9 +84,17 @@ margin-left:1px;
 .side_bar .container{
   margin-left:10px
 }
-td {
-    max-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.search h1{
+        font-family: 'Kranky', cursive;
+        font-size: 58px;
+        display:inline;                     
+      }
+.black{
+  color:#808000;
+}
+.blue{
+  color:#000080;
+}
+.search{
+  margin-left:110px;
 }

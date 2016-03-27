@@ -16,11 +16,11 @@
       <%= text_area_tag :keywords  %>    <br>
 
       <label for="shared_with">Who can see the file?</label>&nbsp;&nbsp;&nbsp;&nbsp;
-      <%= radio_button :file_upload, :shared_with, "Public",:name=>:wanted,:id=>:choice1  %>&nbsp;&nbsp;&nbsp;&nbsp;<label>Public</label>&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= radio_button :file_upload, :shared_with, "Public"%>&nbsp;&nbsp;&nbsp;&nbsp;<label>Public</label>&nbsp;&nbsp;&nbsp;&nbsp;
       
-      <%= radio_button :file_upload,:shared_with, "Private",:name=>:wanted,:id=>:choice2  %>&nbsp;&nbsp;&nbsp;&nbsp;<label>Private</label>&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= radio_button :file_upload,:shared_with, "Private"%>&nbsp;&nbsp;&nbsp;&nbsp;<label>Private</label>&nbsp;&nbsp;&nbsp;&nbsp;
 
-      <%= radio_button :file_upload,:shared_with, "Selected Users" ,:name=>:wanted,:id=>:choice3 %>&nbsp;&nbsp;&nbsp;&nbsp;
+      <%= radio_button :file_upload,:shared_with, "Selected Users" %>&nbsp;&nbsp;&nbsp;&nbsp;
       <label>Selected Users (List below)</label>&nbsp;&nbsp;&nbsp;&nbsp;
       
       <br><%= f.text_area_tag :shared_users,"Enter email id of users" , :id=>:div1%>

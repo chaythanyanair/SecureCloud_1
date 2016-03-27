@@ -42,11 +42,20 @@ class FuzzyController < ApplicationController
   	@file_recs = []
   	if (@file_ids)
   		@file_ids.each do |file_id|
-  		@temps = FileUpload.where(:id => file_id)
-  		@file_recs << @temps
-  	end
-
-  end
+  		  @temps = FileUpload.find(file_id)
+        if(@user.id==@temps.user_id or @temps.shared_with == "Public")
+          @file_recs << @temps
+        end
+        if(@temps.shared_with=="Selected Users")
+          @sel_user = SharedUser.where(:file_upload_id => file_id, :user_id =>@user.id)
+          if(@sel_user)
+            @file_recs << @temps
+          end
+        end
+      end
+        #@file_recs << @temps
+  	  end
+    
   	#raise @file_recs
 
   end
