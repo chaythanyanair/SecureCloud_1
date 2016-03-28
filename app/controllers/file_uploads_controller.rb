@@ -81,6 +81,7 @@ class FileUploadsController < ApplicationController
         @file_upload[:hash_val]=@md5
         
         @keyword = params[:keywords].split(',')
+        @keyword.map!(&:downcase)
         @keyword.each do |keyword|
           if keyword.length < 3
             s = gram_fuzzy_set(keyword,0)
@@ -145,6 +146,7 @@ class FileUploadsController < ApplicationController
         Keyword.where(:file_upload_id =>@file_upload.id).delete_all
         
         @keyword = params[:keywords].split(',')
+        @keyword.map!(&:downcase)
         @keyword.each do |keyword|
           if keyword.length < 3
             s = gram_fuzzy_set(keyword,0)
