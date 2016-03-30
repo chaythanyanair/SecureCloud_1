@@ -27,6 +27,17 @@ class TpaController < ApplicationController
     render 'show'
   end
 
+  def destroy_multiple
+    raise
+    RequestMessage.destroy(params[:messages])
+    flash[:success] = "Message Deleted"
+    @user = User.find_by_id(1)
+    @req = RequestMessage.all
+    @resp = TpaCsp.all
+    render 'show'
+    
+  end
+
   def challenge
     @reqs = RequestMessage.find_by_id(params[:id])
    # @file=Tpa.create(:file_upload_id=>@reqs.file_upload_id,:file_hash => @reqs.file_hash)

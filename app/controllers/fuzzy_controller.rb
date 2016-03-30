@@ -1,7 +1,13 @@
 class FuzzyController < ApplicationController
   def fuzzy_search
-
-    @keywords = params[:search].split()
+    @query = params[:search]
+    @symbols=[".",",","-","'","&","@","%"]
+    @symbols.each do |symbol|
+      if(@query.include? symbol)
+        @query=@query.split(symbol).join(' ')
+      end
+    end
+    @keywords = @query.split()
     @keywords.map!(&:downcase)
     @keyword_fuzz = []
     #removing stop words and converting keywords to their base form 
@@ -45,7 +51,14 @@ class FuzzyController < ApplicationController
   def authorize
   	@user = User.find_by_id(params[:userid])
     @keyword_fuzz = []
-    @keywords = params[:search].split()
+    @query = params[:search]
+    @symbols=[".",",","-","'","&","@","%"]
+    @symbols.each do |symbol|
+      if(@query.include? symbol)
+        @query=@query.split(symbol).join(' ')
+      end
+    end
+    @keywords = @query.split()
     #removing stop words and converting keywords to their base form 
     @stopwords = ["a","and","the","or","is","was","you","i","to","so","but","in","all"]
     @keyword=@keywords.reject {|term| @stopwords.include? term}
@@ -99,6 +112,7 @@ class FuzzyController < ApplicationController
     file.each do |f|
       @file_ids << f[0]
     end
+    #raise
     #authorising users
   	@file_recs = []
   	if (@file_ids) 
@@ -150,7 +164,6 @@ class FuzzyController < ApplicationController
     @max=[@pdf_count,@image_count,@office_count,@presentation_count,@video_count,@other_count].max
     @open=0
   end
-
   def audit
     @user = User.find(params[:user_id])
     @id1 = params[:user_id]

@@ -26,6 +26,7 @@
 <table class = "table table-bordered table-striped" width="0%">
   <thead>
     <tr>
+      <th colspan="1">Select</th>
       <th>Status Code</th>
       <th>File Id</th>
       <th colspan="5">Action</th>
@@ -33,9 +34,13 @@
   </thead>
 
   <tbody>
+    <% messages=[]%>
     <% @req.each.each do |req| %>
     <% if(req.status_code==503)%>
       <tr>
+      <%= form_tag  destroy_multiple_request_messages_path, method: :delete do %> 
+        <td><%= check_box_tag "messages[]",req.id %></td>
+      <%end%>
         <td><%= req.status_code %></td>
         <td><%= req.file_upload_id %></td>
         <td><%= link_to tpa_challenge_path(:id => req.id,:tpa_id => 1), class: "btn btn-info",:id => '5',:title => 'Challenge CSP', :rel => 'tooltip' do %><i class="glyphicon glyphicon-share"></i>
@@ -43,9 +48,10 @@
         <td><%= link_to tpa_path(:id => req.id,:flag=>1), method: :delete, class: "btn btn-danger",:id => '5',:title => 'Delete Message', :rel => 'tooltip' do %><i class="glyphicon glyphicon-trash"></i><% end %></td>
       </tr>
     <% end %>
-    <% end %>
+    <% end %><%= submit_tag "Delete selected" %>
   </tbody>
 </table>
+
 </div></div>
 <div class="tab-pane fade" id="tab2default">
 <div class="col-md-5">

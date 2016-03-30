@@ -61,6 +61,8 @@ class UsersController < ApplicationController
     
   end
   
+  
+
   private 
     def user_params #which parameters are required and which ones are permitted.
         params.require(:user).permit(:first_name,:last_name, :email, :password,:date_of_birth,:gender,:captcha,:captcha_key) 
