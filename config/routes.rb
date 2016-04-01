@@ -9,11 +9,11 @@ resources :password_resets,     only: [:new, :create, :edit, :update]
    get '/verify' => 'tpa#verify'
    get '/update_hash' => 'tpa#update_hash'
   end
-  resources :request_messages do
+  resources :tpa do
     collection do
-      delete 'destroy_multiple'
-    end
+    post :destroy_multiple
   end
+end
   get 'uploads' => 'file_uploads#index'
   get 'control_panel' => 'control_panels#index'
   resource :control_panel, only: [:index, :new, :create, :destroy]

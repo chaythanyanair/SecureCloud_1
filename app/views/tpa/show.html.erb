@@ -23,6 +23,7 @@
 <div id="my-tab-content" class="tab-content">
 <div class="tab-pane fade in active" id="tab1default">        
 <div class="col-md-5">
+<%= form_tag(destroy_multiple_tpa_index_path(:flag=>1),:method => 'post',class: 'navbar-form') do %>
 <table class = "table table-bordered table-striped" width="0%">
   <thead>
     <tr>
@@ -34,13 +35,10 @@
   </thead>
 
   <tbody>
-    <% messages=[]%>
     <% @req.each.each do |req| %>
     <% if(req.status_code==503)%>
       <tr>
-      <%= form_tag  destroy_multiple_request_messages_path, method: :delete do %> 
-        <td><%= check_box_tag "messages[]",req.id %></td>
-      <%end%>
+        <td><%= check_box_tag 'messages[]',req.id%>
         <td><%= req.status_code %></td>
         <td><%= req.file_upload_id %></td>
         <td><%= link_to tpa_challenge_path(:id => req.id,:tpa_id => 1), class: "btn btn-info",:id => '5',:title => 'Challenge CSP', :rel => 'tooltip' do %><i class="glyphicon glyphicon-share"></i>
@@ -48,16 +46,19 @@
         <td><%= link_to tpa_path(:id => req.id,:flag=>1), method: :delete, class: "btn btn-danger",:id => '5',:title => 'Delete Message', :rel => 'tooltip' do %><i class="glyphicon glyphicon-trash"></i><% end %></td>
       </tr>
     <% end %>
-    <% end %><%= submit_tag "Delete selected" %>
+    <% end %>
   </tbody>
 </table>
-
+<%= submit_tag "Delete Checked" ,class: "btn btn-danger" %>
+<%end%>
 </div></div>
 <div class="tab-pane fade" id="tab2default">
 <div class="col-md-5">
+<%= form_tag(destroy_multiple_tpa_index_path(:flag=>1),:method => 'post',class: 'navbar-form') do %>
 <table class = "table table-bordered table-striped" width="0%">
   <thead>
     <tr>
+      <th>Select</th>
       <th>Status Code</th>
       <th>File Id</th>
       <th>Hash value</th>
@@ -69,6 +70,7 @@
     <% @req.each do |req| %>
     <% if(req.status_code==502)%>
       <tr>
+        <td><%= check_box_tag 'messages[]',req.id%>
         <td><%= req.status_code %></td>
         <td><%= req.file_upload_id %></td>
         <td><%= req.file_hash %></td>
@@ -79,16 +81,18 @@
       </tr>
     <% end %>
     <% end %>
-
   </tbody>
 </table>
+<%= submit_tag "Delete Checked" ,class: "btn btn-danger" %><%end%>
 </div>
 </div>
 <div class="tab-pane fade" id="tab3default">
 <div class="col-md-5">
+<%= form_tag(destroy_multiple_tpa_index_path,:method => 'post',class: 'navbar-form') do %>
 <table class = "table table-bordered table-striped" width="0%">
   <thead>
     <tr>
+      <th>Select</th>
       <th>Status Code</th>
       <th>File Id</th>
       <th>Response</th>
@@ -100,6 +104,7 @@
     <% @resp.each do |resp| %>
     <% if(resp.status_code==504)%>
       <tr>
+        <td><%= check_box_tag 'messages[]',resp.id%>
         <td><%= resp.status_code %></td>
         <td><%= resp.file_upload_id %></td>
         <td><%= resp.file_hash %></td>
@@ -112,6 +117,7 @@
     <% end %>
   </tbody>
 </table>
+<%= submit_tag "Delete Checked" ,class: "btn btn-danger" %><%end%>
 </div>
 </div>
 </div>
