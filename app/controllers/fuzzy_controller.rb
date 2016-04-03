@@ -68,20 +68,21 @@ class FuzzyController < ApplicationController
       elsif (keyword.end_with? 'ing')
           keyword.chomp!("ing")
       end
+    end
       #computing fuzzies of query set for ranking
-      if keyword.length < 3
-        s = gram_fuzzy_set(keyword,0)
-        elsif keyword.length < 6
+      #if keyword.length < 3
+      #  s = gram_fuzzy_set(keyword,0)
+      '''  elsif keyword.length < 6
           s = gram_fuzzy_set(keyword,1)
         else
           s = gram_fuzzy_set(keyword,2)
-      end
-      for i in s
+      end'''
+      for i in @keyword
         @keyword_enc = Digest::MD5.hexdigest(i)
         @keyword_fuzz << @keyword_enc
       end
-    end
     
+    #raise
   	@file_ids = params[:files]
     @keywords_recs = []
     if(@file_ids)
@@ -135,7 +136,7 @@ class FuzzyController < ApplicationController
     @image_files = ["jpg","png","jpeg","bmp"]
     @presentation_files = ["odp","ppt"]
     @video_files = ["mp4","3gp"]
-    @office_files = ["doc","odt"]
+    @office_files = ["doc","odt","docx"]
 
     @image_count = 0
     @presentation_count = 0

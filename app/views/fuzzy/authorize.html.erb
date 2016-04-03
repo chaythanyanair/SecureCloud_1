@@ -23,14 +23,14 @@
         <%= form_tag(fuzzy_fuzzy_search_path,:method => 'post',class: 'navbar-form', id: "search-form") do %>
           <div class="input-group">
           <%= hidden_field_tag :tab , @user.id %>
-          <%= text_field_tag :search, params[:search], size:50, placeholder: "Fuzzy Keyword Search", class: "form-control" %>
+          <%= text_field_tag :search, params[:search], size:50, placeholder: "Fuzzy Keyword Search" %>
           <div class="input-group-btn">
-            <%= button_tag(type: "submit", class: "btn btn-default") do %>
-            <i class="glyphicon glyphicon-search"></i>
-            <% end %>
-          </div>
-          <% end %>
-        </div>
+          <%= button_tag(type: "submit",class: "btn btn-custom") do %>
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-search"></i> </span>
+         <% end %>
+        </div></div>                                                                             
+        <% end %>
         </div>
     </div>
 <div class="col-lg-11 col-sm-15 col-md-7">
@@ -244,6 +244,7 @@
     <tr>
           <th>Owner</th>
           <th>Filename</th>
+          <th>Filetype</th>
           <th colspan="2">Actions</th>
     </tr>
   </thead>
@@ -255,6 +256,7 @@
           <tr>
             <td><%= @user.first_name + " " +@user.last_name  %></td>
             <td><%= AES.decrypt(file.fname, ENV['encrypt_hash']) %></td>
+            <td><%= file.ftype%></td>
             <td><%= link_to  fuzzy_audit_path(:file_upload_id => file.id,:user_id => current_user,:search => params[:search], :files => @file_ids), :method => 'post', class: "btn btn-info",:id => '5',:title => 'Request Audit', :rel => 'tooltip' do %><i class="glyphicon glyphicon-saved"></i><% end %></td>
             <td><%= link_to user_file_upload_decrypt_path(current_user,file), class: "btn btn-success" ,:id => '5',:title => 'Download File', :rel => 'tooltip' do%>
              <i class="glyphicon glyphicon-save"></i><%end%></td>
@@ -268,7 +270,8 @@
 </div>
 </div>
 </div>
-<%else%><h4>Sorry we could not find files matching your query :(</h4><%end%>
+<%else%><h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sorry we could not find files matching your query &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= image_tag("shake-head.gif") %></h4>
+<%end%>
 </div>
 </body>
 </html>

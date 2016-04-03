@@ -27,10 +27,11 @@
     <div class="col-sm-6">
     <%= form_tag(file_search_control_panel_path,:method => 'get',class: 'navbar-form', id: "search-form") do %>
      <div class="input-group">
-      <%= text_field_tag :search, params[:search], size:50, placeholder: "Search by file id", class: "form-control" %>
+      <%= text_field_tag :search, params[:search], size:50, placeholder: "Search by file id"%>
     <div class="input-group-btn">
-      <%= button_tag(type: "submit", class: "btn btn-default") do %>
-        <i class="glyphicon glyphicon-search"></i>
+      <%= button_tag(type: "submit", class: "btn btn-custom") do %>
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-search"></i></span>
       <% end %>
     </div>
     <% end %>
