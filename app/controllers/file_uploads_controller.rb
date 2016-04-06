@@ -4,6 +4,7 @@ class FileUploadsController < ApplicationController
 
   rescue_from OpenSSL::Cipher::CipherError, with: :encryption_error
   rescue_from TypeError, with: :encryption_error
+  rescue_from NoMethodError,with: :shared_user_valid
 
   # GET /file_uploads
   # GET /file_uploads.json
@@ -58,11 +59,11 @@ class FileUploadsController < ApplicationController
   def create
     @user=User.find(params[:user_id])
     @file_upload = @user.file_uploads.new(file_upload_params)
+    flag=0
     #flash[:success] = AES.encrypt(@file, @key)    
     
     respond_to do |format|
-      if @file_upload.save
-        
+      if @file_upload.save 
         @file_path = @file_upload.attachment.path
         @file = File.open(@file_path,"rb")
         @file_contents = @file.read
@@ -101,15 +102,12 @@ class FileUploadsController < ApplicationController
             @users = params[:shared_users].split(',')
             @users.each do |users|
               @who = User.find_by_email(users)
-              @shared = SharedUser.new(:user_id => @who.id , :file_upload_id => @file_upload.id)
-              @msg = RequestMessage.create(:status_code=>505, :file_upload_id => @file_upload.id, :user_id => @who.id, :file_hash => @file_upload.owner)
-              @shared.save
+                @shared = SharedUser.new(:user_id => @who.id , :file_upload_id => @file_upload.id)
+                @msg = RequestMessage.create(:status_code=>505, :file_upload_id => @file_upload.id, :user_id => @who.id, :file_hash => @file_upload.owner)
+                @shared.save
             end
         end 
-      
         @file_upload.save
-
-
         format.html { redirect_to user_file_upload_path(@user,@file_upload), notice: 'File was successfully uploaded.' }
         format.json { render :show, status: :created, location: @file_upload }
 
@@ -249,7 +247,6 @@ class FileUploadsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def file_upload_params
-
       params.require(:file_upload).permit(:fname, :owner, :ftype, :attachment,:shared_with)
     end
 
@@ -282,5 +279,8 @@ class FileUploadsController < ApplicationController
       format.any { head :not_found }
     end
   end
-  
+  def shared_user_valid
+    flash[:error]="Invalid User"
+    render 'new'
+  end
 end

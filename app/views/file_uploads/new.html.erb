@@ -1,4 +1,20 @@
-
+<% if !@file_upload.errors.empty? %>
+   <div class = "alert alert-error">
+      
+      <ul>
+         <% @file_upload.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+         <% end %>
+      </ul>
+      
+   </div>
+<% end %>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <%= render 'shared/flash_messages' %>
+    </div>  
+</div>
+<br />
 <%= render 'users/user'%>
 <div class="col-sm-7">
 <h2>Add new file</h2>
@@ -13,7 +29,7 @@
       <%= f.text_field :ftype %>
 
       <label for="keywords">Keywords(comma separated)</label><br>
-      <%= text_area_tag :keywords  %>    <br>
+      <%= text_area_tag :keywords,"Enter Keywords"  %>    <br>
 
       <label for="shared_with">Who can see the file?</label>&nbsp;&nbsp;&nbsp;&nbsp;
       <%= f.radio_button :shared_with,"Public"%>&nbsp;&nbsp;&nbsp;&nbsp;<label>Public</label>&nbsp;&nbsp;&nbsp;&nbsp;

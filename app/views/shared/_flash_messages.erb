@@ -14,5 +14,11 @@
             <%= flash[:success]%>
     </div>
     <% end %>
+    <% if flash[:error]%>
+  <div class="alert alert-danger fade in"> 
+        <span class="close" data-dismiss="alert" aria-label="close"> &times;</span>
+            <%= flash[:error]%>
+    </div>
+    <% end %>
    </body>
    </html>
